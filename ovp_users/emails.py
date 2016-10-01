@@ -2,7 +2,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import Context, Template
 from django.template.loader import get_template
 
-from utils.router import ClientRouter
+#from utils.router import ClientRouter
 
 
 class BaseMail:
@@ -32,5 +32,6 @@ class UserMail(BaseMail):
     """
     Sent when volunteer requests recovery token
     """
-    c = {'link': ClientRouter.recoverPassword(context['token'])}
+    #c = {'link': ClientRouter.recoverPassword(context['token'])}
+    c={}
     return self.sendEmail('recoveryToken', 'Solicitação de recuperação de senha', c)

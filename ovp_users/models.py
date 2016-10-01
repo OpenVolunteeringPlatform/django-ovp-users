@@ -1,6 +1,6 @@
 import uuid
 
-from users import emails
+from ovp_users import emails
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
