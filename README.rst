@@ -4,10 +4,6 @@ OVP Users
 
 This module implements core user functionality.
 
-Ideally should only be used in development.
-These changes should be pushed back to the package repository
-and installed with pip on production.
-
 Quick start
 -----------
 1. Install django-git-submodules::
