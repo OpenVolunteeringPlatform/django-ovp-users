@@ -15,4 +15,9 @@ setup(
                 ' password recovery and registration',
     long_description=open('README.rst', encoding='utf-8').read(),
     zip_safe=False,
+    install_requires = [
+      'djangorestframework>=3.4.7,<3.5.0',
+      'djangorestframework-jwt>=1.8.0,<1.9.0',
+      'python-dateutil>=2.5.3,<2.6.0',
+    ]
 )
