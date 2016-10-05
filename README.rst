@@ -19,7 +19,6 @@ Installing
 4. Set up REST Framework Authentication::
 
    # Rest framework
-
    REST_FRAMEWORK = {
      'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.SessionAuthentication',
@@ -28,8 +27,9 @@ Installing
      )
    }
 
-   # User models
+::
 
+   # User models
    AUTH_USER_MODEL = 'ovp_users.User'
 
 
@@ -45,7 +45,7 @@ To test this module
 
 ::
 
-python run_tests.py
+  python run_tests.py
 
 Contributing
 ---------------
