@@ -10,7 +10,26 @@ Quick start
 
     pip install ovp-users
 
-2. Add it to `INSTALLED_APP` on `settings.py`
+2. Add it to `INSTALLED_APPS` on `settings.py`
+
+3. Add `rest_framework_jwt` to `INSTALLED_APPS`
+
+4. Set up REST Framework Authentication::
+
+   # Rest framework
+
+   REST_FRAMEWORK = {
+     'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.SessionAuthentication',
+       'rest_framework.authentication.BasicAuthentication',
+       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+     )
+   }
+
+   # User models
+
+   AUTH_USER_MODEL = 'ovp_users.User'
+
 
 
 Forking
