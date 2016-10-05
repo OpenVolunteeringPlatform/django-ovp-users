@@ -1,4 +1,7 @@
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
+
 from dateutil.relativedelta import relativedelta
 
 from ovp_users import serializers
@@ -76,16 +79,27 @@ class RecoverPasswordViewSet(viewsets.GenericViewSet):
     email = request.data.get('email', None)
     token = request.data.get('token', None)
     new_password = request.data.get('new_password', None)
+    day_ago = (timezone.now() - relativedelta(hours=24)).replace(tzinfo=timezone.utc)
 
     try:
       rt = self.get_queryset().get(user__email=email, token=token)
     except:
       rt = None
 
-    if rt:
-      pass
-    else:
+    if (not rt) or rt.used_date or rt.created_date < day_ago:
       return response.Response({'message': 'Invalid email or token.'}, status=status.HTTP_401_UNAUTHORIZED)
+    if not new_password:
+      return response.Response({'message': 'Empty password not allowed.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+      validate_password(new_password, user=rt.user)
+    except ValidationError as e:
+      return response.Response({'message': 'Invalid password', 'errors': e}, status=status.HTTP_400_BAD_REQUEST)
+
+    rt.used_date=timezone.now()
+    rt.save()
+
+    rt.user.set_password(new_password)
+    rt.user.save()
 
     return response.Response({'message': 'Password updated.'})
-
