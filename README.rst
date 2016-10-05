@@ -37,7 +37,7 @@ Forking
 """"""""""""""
 If you have your own OVP installation and want to fork this module
 to implement custom features while still merging changes from upstream,
-read Forking section on the wiki.
+take a look at `django-git-submodules <https://github.com/leonardoarroyo/django-git-submodules>`_.
 
 Testing
 ---------------
