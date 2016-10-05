@@ -56,6 +56,7 @@ class PasswordRecoveryToken(models.Model):
   user = models.ForeignKey('User', blank=True, null=True)
   token = models.CharField('Token', max_length=128, null=False, blank=False)
   created_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+  used_date = models.DateTimeField(default=None, blank=True, null=True)
 
   def save(self, *args, **kwargs):
     if not self.pk:
