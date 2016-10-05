@@ -2,7 +2,15 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import Context, Template
 from django.template.loader import get_template
 
-#from utils.router import ClientRouter
+import threading
+
+class EmailThread(threading.Thread):
+    def __init__(self, msg):
+        self.msg = msg
+        threading.Thread.__init__(self)
+
+    def run (self):
+      return self.msg.send() > 0
 
 
 class BaseMail:
@@ -22,7 +30,7 @@ class BaseMail:
     msg = EmailMultiAlternatives(subject, text_content, self.from_email, [self.user.email])
     msg.attach_alternative(text_content, "text/plain")
     msg.attach_alternative(html_content, "text/html")
-    return msg.send() > 0
+    EmailThread(msg).start()
 
 class UserMail(BaseMail):
   """
@@ -32,6 +40,4 @@ class UserMail(BaseMail):
     """
     Sent when volunteer requests recovery token
     """
-    #c = {'link': ClientRouter.recoverPassword(context['token'])}
-    c={}
-    return self.sendEmail('recoveryToken', 'Solicitação de recuperação de senha', c)
+    return self.sendEmail('recoveryToken', 'Solicitação de recuperação de senha', context)
