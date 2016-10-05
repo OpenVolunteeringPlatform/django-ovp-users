@@ -19,5 +19,9 @@ v0.1.4
 * Update "forking" readme section
 * Update changelog format
 
-v0.1.5[unreleased]
+v0.1.5
+-----------
+* Fix install_requires on setup.py
+
+v0.1.6[unreleased]
 -----------
