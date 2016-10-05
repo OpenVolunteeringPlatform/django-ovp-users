@@ -1,8 +1,8 @@
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 
-from users import serializers
-from users import models
+from ovp_users import serializers
+from ovp_users import models
 
 from rest_framework import decorators
 from rest_framework import response

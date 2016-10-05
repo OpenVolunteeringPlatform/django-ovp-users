@@ -1,4 +1,4 @@
-from users import models
+from ovp_users import models
 from rest_framework import serializers
 
 class UserCreateSerializer(serializers.ModelSerializer):

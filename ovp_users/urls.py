@@ -1,8 +1,8 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token
-from users import views
-from users import recover_password as rp
+from ovp_users import views
+from ovp_users import recover_password as rp
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserCreateViewSet, 'user')
