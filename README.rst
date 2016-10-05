@@ -20,19 +20,17 @@ Installing
 
 4. Set up REST Framework Authentication::
 
-   # Rest framework
-   REST_FRAMEWORK = {
-     'DEFAULT_AUTHENTICATION_CLASSES': (
-       'rest_framework.authentication.SessionAuthentication',
-       'rest_framework.authentication.BasicAuthentication',
-       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-     )
-   }
+    # Rest framework
+    REST_FRAMEWORK = {
+      'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+      )
+    }
 
-::
-
-   # User models
-   AUTH_USER_MODEL = 'ovp_users.User'
+    # User models
+    AUTH_USER_MODEL = 'ovp_users.User'
 
 
 Forking
