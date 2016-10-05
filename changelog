@@ -1,4 +1,5 @@
 v0.1.2
 - introduced changelog
 - updated readme
-- 
+- add django as dependency
+- create test structure
