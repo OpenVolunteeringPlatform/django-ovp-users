@@ -2,6 +2,8 @@
 OVP Users
 =====
 
+.. image:: https://app.codeship.com/projects/b8242540-6d59-0134-3942-5649fa39e129/status?branch=master
+
 This module implements core user functionality.
 
 Getting Started
