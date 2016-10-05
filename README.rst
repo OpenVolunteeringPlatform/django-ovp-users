@@ -10,7 +10,7 @@ Getting Started
 ---------------
 Installing
 """"""""""""""
-1. Install django-git-submodules::
+1. Install django-ovp-users::
 
     pip install ovp-users
 
