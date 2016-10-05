@@ -23,7 +23,7 @@ class RecoveryTokenFilter(filters.BaseFilterBackend):
 
 class RecoveryTokenViewSet(viewsets.GenericViewSet):
   """
-  CurrentUserViewset resource endpoint
+  RecoveryToken resource endpoint
   """
   queryset = models.User.objects.all()
   filter_backends = (RecoveryTokenFilter,)
@@ -66,7 +66,7 @@ class RecoverPasswordFilter(filters.BaseFilterBackend):
 
 class RecoverPasswordViewSet(viewsets.GenericViewSet):
   """
-  CurrentUserViewset resource endpoint
+  RecoverPassword resource endpoint
   """
   queryset = models.PasswordRecoveryToken.objects.all()
   filter_backends = (RecoverPasswordFilter,)
