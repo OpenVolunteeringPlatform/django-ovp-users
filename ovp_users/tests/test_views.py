@@ -1,3 +1,5 @@
+import re
+
 from django.test import TestCase
 from django.core import mail
 
@@ -31,7 +33,7 @@ def create_token(email='test@recovery.token'):
   client = APIClient()
   return client.post(reverse('recovery-token-list'), data, format="json")
 
-class UserCreateViewsetTestCase(TestCase):
+class UserCreateViewSetTestCase(TestCase):
   def test_can_create_user(self):
     """Assert that it's possible to create an user"""
     response = create_user()
@@ -47,7 +49,7 @@ class UserCreateViewsetTestCase(TestCase):
     response = create_user()
     self.assertTrue(response.data.get('password', None) == None)
 
-class RecoveryTokenViewsetTestCase(TestCase):
+class RecoveryTokenViewSetTestCase(TestCase):
   def test_can_create_token(self):
     """Assert that it's possible to create an recovery token"""
     user = create_user('test@recovery.token')
@@ -69,6 +71,32 @@ class RecoveryTokenViewsetTestCase(TestCase):
     self.assertTrue(response.data['success'] == True)
     self.assertTrue(response.data['success'] == True)
     self.assertTrue(len(mail.outbox) == 0)
+
+class RecoverPasswordViewSetTestCase(TestCase):
+  def test_can_recover_password(self):
+    """Assert the user can recover his password with a valid token"""
+    # Request token
+    user = create_user('test_can_recover@password.com')
+    response = create_token('test_can_recover@password.com')
+
+    # Get Token from mailbox
+    email_content = mail.outbox[1].alternatives[0][0]
+    token = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', email_content).group(0)
+
+    # Recover Password
+    data = {
+      'email': 'test_can_recover@password.com',
+      'token': token,
+      'new_password': 'newpassword'
+    }
+
+    client = APIClient()
+    response = client.post(reverse('recover-password-list'), data, format="json")
+    self.assertTrue(response.data['message'] == 'Password updated.')
+
+    # Test authentication new password
+    auth = authenticate('test_can_recover@password.com', 'newpassword')
+    self.assertTrue(auth.data['token'] != None)
 
 class JWTAuthTestCase(TestCase):
   def test_can_login(self):
@@ -100,3 +128,4 @@ class CurrentUserViewSetTestCase(TestCase):
     client = APIClient()
     response = client.get(reverse('current-user-list'), {}, format="json")
     self.assertTrue(response.data['detail'] == 'Authentication credentials were not provided.')
+
