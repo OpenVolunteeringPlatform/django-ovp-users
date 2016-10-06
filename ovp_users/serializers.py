@@ -7,6 +7,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
     fields = ['id', 'name', 'email', 'password']
+    extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
       password = data.get('password')
@@ -14,7 +15,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
       errors = dict()
       try:
         validate_password(password=password)
-        pass
       except ValidationError as e:
         errors['password'] = list(e.messages)
 
@@ -22,6 +22,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError(errors)
 
       return super(UserCreateSerializer, self).validate(data)
+
 
 class UserSearchSerializer(serializers.ModelSerializer):
   class Meta:
