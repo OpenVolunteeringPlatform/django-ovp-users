@@ -6,9 +6,9 @@ from ovp_users import recover_password as rp
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserCreateViewSet, 'user')
-router.register(r'users/current-user', views.CurrentUserViewSet, 'user-search')
-router.register(r'users/recovery-token', rp.RecoveryTokenViewSet, 'user-search')
-router.register(r'users/recover-password', rp.RecoverPasswordViewSet, 'user-search')
+router.register(r'users/current-user', views.CurrentUserViewSet, 'current-user')
+router.register(r'users/recovery-token', rp.RecoveryTokenViewSet, 'recovery-token')
+router.register(r'users/recover-password', rp.RecoverPasswordViewSet, 'recover-password')
 
 urlpatterns = [
   url(r'^', include(router.urls)),

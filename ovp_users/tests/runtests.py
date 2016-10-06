@@ -43,7 +43,7 @@ settings.configure(
     ALLOWED_HOSTS=[],
     INSTALLED_APPS=ALWAYS_INSTALLED_APPS + CUSTOM_INSTALLED_APPS,
     MIDDLEWARE_CLASSES=ALWAYS_MIDDLEWARE_CLASSES,
-    ROOT_URLCONF='tests.urls',
+    ROOT_URLCONF='ovp_users.tests.urls',
     DATABASES={
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -59,8 +59,24 @@ settings.configure(
     PASSWORD_HASHERS=(
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ),
-    FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/')
-
+    FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/'),
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [os.path.abspath(os.path.join(BASE_DIR, '../../templates'))],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth',
+                    'django.contrib.messages.context_processors.messages',
+                ],
+            },
+        },
+    ],
+    DEFAULT_SEND_EMAIL="sync"
 )
 
 django.setup()
