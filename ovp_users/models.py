@@ -49,12 +49,20 @@ class User(AbstractBaseUser):
   objects = UserManager()
   USERNAME_FIELD = 'email'
 
+  def __init__(self, *args, **kwargs):
+    super(User, self).__init__(*args, **kwargs)
+    self.__original_password = self.password
+
   def mailing(self, async_mail=None):
     return emails.UserMail(self, async_mail)
 
   def save(self, *args, **kwargs):
     if not self.pk:
       self.mailing().sendWelcome()
+
+    # Password being updated
+    if self.__original_password == self.password:
+      self.set_password(self.password) # hash it
 
     super(User, self).save(*args, **kwargs)
 
