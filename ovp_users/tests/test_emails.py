@@ -17,3 +17,9 @@ class TestEmailTriggers(TestCase):
     token = PasswordRecoveryToken(user=user)
     token.save()
     self.assertTrue(len(mail.outbox) >= 2)
+
+  def test_async_email_works(self):
+    """Assert that async emails are triggered by testing user creation"""
+    user = User(email="a@b.c", password="validpassword", name="valid name")
+    user.mailing(async_mail=True).sendWelcome().join()
+    self.assertTrue(len(mail.outbox) > 0)

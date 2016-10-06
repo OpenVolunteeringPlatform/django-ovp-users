@@ -49,8 +49,8 @@ class User(AbstractBaseUser):
   objects = UserManager()
   USERNAME_FIELD = 'email'
 
-  def mailing(self):
-    return emails.UserMail(self)
+  def mailing(self, async_mail=None):
+    return emails.UserMail(self, async_mail)
 
   def save(self, *args, **kwargs):
     if not self.pk:

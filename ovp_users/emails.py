@@ -7,8 +7,8 @@ import threading
 
 class EmailThread(threading.Thread):
     def __init__(self, msg):
-        self.msg = msg
-        threading.Thread.__init__(self)
+      self.msg = msg
+      threading.Thread.__init__(self)
 
     def run (self):
       return self.msg.send() > 0
@@ -20,8 +20,9 @@ class BaseMail:
   """
   from_email = ''
 
-  def __init__(self, user):
+  def __init__(self, user, async_mail=None):
     self.user = user
+    self.async_mail = async_mail
 
   def sendEmail(self, template_name, subject, context):
     ctx = Context(context)
@@ -32,9 +33,16 @@ class BaseMail:
     msg.attach_alternative(text_content, "text/plain")
     msg.attach_alternative(html_content, "text/html")
 
-    send = getattr(settings, "DEFAULT_SEND_EMAIL", "async")
-    if send == "async":
-      EmailThread(msg).start()
+
+    if self.async_mail:
+      async_flag="async"
+    else:
+      async_flag=getattr(settings, "DEFAULT_SEND_EMAIL", "async")
+
+    if async_flag == "async":
+      t = EmailThread(msg)
+      t.start()
+      return t
     else:
       return msg.send() > 0
 
@@ -48,9 +56,7 @@ class UserMail(BaseMail):
     """
     return self.sendEmail('welcome', 'Welcome', context)
 
-  """
-  This class is responsible for firing emails for Users
-  """
+
   def sendRecoveryToken(self, context):
     """
     Sent when volunteer requests recovery token
