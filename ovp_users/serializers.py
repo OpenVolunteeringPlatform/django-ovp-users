@@ -27,7 +27,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserSearchSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
-    fields = ['name']
+    fields = ['id', 'name', 'email']
 
 class RecoveryTokenSerializer(serializers.Serializer):
   email = serializers.CharField(required=True)
