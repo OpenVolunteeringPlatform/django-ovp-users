@@ -28,3 +28,6 @@ v0.1.6[unreleased]
 * Add sync and async option to mailing
 * Create welcome email
 * Add id to UserCreateSerializer
+* Add basic test cases to UserCreateViewSet and PasswordRecoveryViewSet
+* Add test cases to mailing().sendWelcome() and mailing.sendRecoveryToken()
+* [TODO] Add better test cases covering UserCreateViewSet and PasswordRecoveryViewSet

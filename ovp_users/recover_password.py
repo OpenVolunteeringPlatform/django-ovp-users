@@ -54,7 +54,6 @@ class RecoveryTokenViewSet(viewsets.GenericViewSet):
 
       token = models.PasswordRecoveryToken(user=user)
       token.save()
-      user.mailing().sendRecoveryToken({'token': token.token})
 
     return response.Response({'success': True, 'message': 'Token requested successfully(if user exists).'})
 
