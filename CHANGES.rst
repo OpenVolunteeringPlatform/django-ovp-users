@@ -32,10 +32,14 @@ v0.1.6
 * Add test cases to mailing().sendWelcome() and mailing.sendRecoveryToken()
 * Add codecov and coverage
 
-v0.1.7[unreleased]
+v0.1.7
 -----------
 * Add codecov badge to README.rst
 * Test async email triggering
 * Fix password hash on user creation
 * Password becomes write-only on UserCreateSerializer
 * Improved test cases
+* Increase test coverage to 100%
+
+v0.1.8[unreleased]
+-----------
