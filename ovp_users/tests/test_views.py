@@ -92,7 +92,6 @@ class RecoverPasswordViewSetTestCase(TestCase):
 
     client = APIClient()
     response = client.post(reverse('recover-password-list'), data, format="json")
-    print(response.data)
     self.assertTrue(response.data['message'] == 'Password updated.')
 
     # Test authentication new password

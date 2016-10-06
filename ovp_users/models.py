@@ -13,7 +13,7 @@ class UserManager(BaseUserManager):
   def create_user(self, email, password=None, **extra_fields):
     now = timezone.now()
     if not email:
-        raise ValueError('The given email address must be set')
+      raise ValueError('The given email address must be set.')
     email = UserManager.normalize_email(email)
     user = self.model(email=email, is_staff=False,
                       is_active=True, last_login=now,
