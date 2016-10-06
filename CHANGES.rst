@@ -27,3 +27,4 @@ v0.1.6[unreleased]
 -----------
 * Add sync and async option to mailing
 * Create welcome email
+* Add id to UserCreateSerializer
