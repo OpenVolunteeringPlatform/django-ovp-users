@@ -35,6 +35,17 @@ ALWAYS_MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'PAGINATE_BY_PARAM': 'page_size',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
+}
+
 
 settings.configure(
     SECRET_KEY="django_tests_secret_key",
@@ -76,7 +87,9 @@ settings.configure(
             },
         },
     ],
-    DEFAULT_SEND_EMAIL="sync"
+    DEFAULT_SEND_EMAIL='sync',
+    AUTH_USER_MODEL='ovp_users.User',
+    REST_FRAMEWORK=REST_FRAMEWORK
 )
 
 django.setup()
