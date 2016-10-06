@@ -38,4 +38,4 @@ v0.1.7[unreleased]
 * Test async email triggering
 * Fix password hash on user creation
 * Password becomes write-only on UserCreateSerializer
-* [TODO] Add better test cases covering UserCreateViewSet and PasswordRecoveryViewSet
+* Improved test cases

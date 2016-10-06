@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core import mail
 
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -47,7 +48,6 @@ class UserCreateViewsetTestCase(TestCase):
     self.assertTrue(response.data.get('password', None) == None)
 
 class RecoveryTokenViewsetTestCase(TestCase):
-
   def test_can_create_token(self):
     """Assert that it's possible to create an recovery token"""
     user = create_user('test@recovery.token')
@@ -62,6 +62,13 @@ class RecoveryTokenViewsetTestCase(TestCase):
       response = create_token('test2@recovery.token')
 
     self.assertFalse(response.data.get('success', False) == True)
+
+  def test_token_for_invalid_user(self):
+    """Assert the server hides the fact user don't exist when requesting token"""
+    response = create_token('invaliduser@invalid.com')
+    self.assertTrue(response.data['success'] == True)
+    self.assertTrue(response.data['success'] == True)
+    self.assertTrue(len(mail.outbox) == 0)
 
 class JWTAuthTestCase(TestCase):
   def test_can_login(self):
