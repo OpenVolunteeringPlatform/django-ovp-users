@@ -23,7 +23,7 @@ v0.1.5
 -----------
 * Fix install_requires on setup.py
 
-v0.1.6[unreleased]
+v0.1.6
 -----------
 * Add sync and async option to mailing
 * Create welcome email
@@ -31,4 +31,7 @@ v0.1.6[unreleased]
 * Add basic test cases to UserCreateViewSet and PasswordRecoveryViewSet
 * Add test cases to mailing().sendWelcome() and mailing.sendRecoveryToken()
 * Add codecov and coverage
+
+v0.1.7[unreleased]
+-----------
 * [TODO] Add better test cases covering UserCreateViewSet and PasswordRecoveryViewSet

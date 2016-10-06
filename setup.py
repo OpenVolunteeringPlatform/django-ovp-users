@@ -3,12 +3,12 @@ from distutils.core import setup
 
 setup(
     name='ovp-users',
-    version='0.1.5',
+    version='0.1.6',
     author=u'Atados',
     author_email='arroyo@atados.com.br',
     packages=['ovp_users'],
     url='https://github.com/OpenVolunteeringPlatform/ovp-users',
-    download_url = 'https://github.com/OpenVolunteeringPlatform/ovp-users/tarball/0.1.5',
+    download_url = 'https://github.com/OpenVolunteeringPlatform/ovp-users/tarball/0.1.6',
     license='AGPL',
     description='This module has core functionality for' + \
                 ' ovp users, such as authentication, user management' + \
@@ -20,5 +20,7 @@ setup(
       'djangorestframework>=3.4.7,<3.5.0',
       'djangorestframework-jwt>=1.8.0,<1.9.0',
       'python-dateutil>=2.5.3,<2.6.0',
+      'codecov>=2.0.5,<2.1.0',
+      'coverage>=4.2,<4.3.0'
     ]
 )
