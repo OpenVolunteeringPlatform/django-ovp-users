@@ -1,8 +1,10 @@
-=====
+==========
 OVP Users
-=====
+==========
 
 .. image:: https://app.codeship.com/projects/b8242540-6d59-0134-3942-5649fa39e129/status?branch=master
+.. image:: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-users/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-users
 
 This module implements core user functionality.
 

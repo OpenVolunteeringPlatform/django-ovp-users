@@ -34,4 +34,5 @@ v0.1.6
 
 v0.1.7[unreleased]
 -----------
+* Add codecov badge to README.rst
 * [TODO] Add better test cases covering UserCreateViewSet and PasswordRecoveryViewSet
