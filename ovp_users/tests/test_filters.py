@@ -8,8 +8,8 @@ def test_filter(c):
   obj.filter_queryset('a', 'b', 'c')
   obj.get_fields('a')
 
-def PasswordRecoveryFiltersTestCase(TestCase):
-  def test_filters():
+class PasswordRecoveryFiltersTestCase(TestCase):
+  def test_filters(self):
     """Assert filters do not throw error when instantiated"""
     # Nothing to assert here, we just instantiate them and
     # make sure it throws no error
