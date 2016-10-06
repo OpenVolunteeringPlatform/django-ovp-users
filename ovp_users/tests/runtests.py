@@ -119,7 +119,7 @@ try:
     sys.argv[1]
 except IndexError:
     pass
-else:
+else: #pragma: no cover
     option = sys.argv[1].startswith('-')
     if not option:
         test_cases = sys.argv[1]
