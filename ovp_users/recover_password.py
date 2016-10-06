@@ -91,9 +91,10 @@ class RecoverPasswordViewSet(viewsets.GenericViewSet):
       return response.Response({'message': 'Empty password not allowed.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
+      print(new_password)
       validate_password(new_password, user=rt.user)
     except ValidationError as e:
-      return response.Response({'message': 'Invalid password', 'errors': e}, status=status.HTTP_400_BAD_REQUEST)
+      return response.Response({'message': 'Invalid password.', 'errors': e}, status=status.HTTP_400_BAD_REQUEST)
 
     rt.used_date=timezone.now()
     rt.save()

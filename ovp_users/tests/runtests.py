@@ -46,6 +46,21 @@ REST_FRAMEWORK = {
     )
 }
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
 
 settings.configure(
     SECRET_KEY="django_tests_secret_key",
@@ -89,7 +104,8 @@ settings.configure(
     ],
     DEFAULT_SEND_EMAIL='sync',
     AUTH_USER_MODEL='ovp_users.User',
-    REST_FRAMEWORK=REST_FRAMEWORK
+    REST_FRAMEWORK=REST_FRAMEWORK,
+    AUTH_PASSWORD_VALIDATORS=AUTH_PASSWORD_VALIDATORS
 )
 
 django.setup()

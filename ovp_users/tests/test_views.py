@@ -87,16 +87,79 @@ class RecoverPasswordViewSetTestCase(TestCase):
     data = {
       'email': 'test_can_recover@password.com',
       'token': token,
+      'new_password': 'newpwvalidpw*'
+    }
+
+    client = APIClient()
+    response = client.post(reverse('recover-password-list'), data, format="json")
+    print(response.data)
+    self.assertTrue(response.data['message'] == 'Password updated.')
+
+    # Test authentication new password
+    auth = authenticate('test_can_recover@password.com', 'newpwvalidpw*')
+    self.assertTrue(auth.data['token'] != None)
+
+  def test_cant_recover_with_empty_password(self):
+    """Assert that it's impossible to update password through recovery to an empty password"""
+    # Request token
+    user = create_user('test_cant_recover_empty@password.com')
+    response = create_token('test_cant_recover_empty@password.com')
+
+    # Get Token from mailbox
+    email_content = mail.outbox[1].alternatives[0][0]
+    token = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', email_content).group(0)
+
+    # Recover Password
+    data = {
+      'email': 'test_cant_recover_empty@password.com',
+      'token': token,
+      'new_password': ''
+    }
+
+    client = APIClient()
+    response = client.post(reverse('recover-password-list'), data, format="json")
+    self.assertTrue(response.data['message'] == 'Empty password not allowed.')
+    self.assertTrue(response.status_code == 400)
+
+  def test_cant_recover_invalid_token(self):
+    """Assert that it's impossible to update password through recovery with an invalid user token"""
+    # Request token
+    user = create_user('test_cant_recover_invalid@password.com')
+    response = create_token('test_cant_recover_invalid@password.com')
+
+    # Recover Password
+    data = {
+      'email': 'test_cant_recover_invalid@password.com',
+      'token': 'invalid_token',
       'new_password': 'newpassword'
     }
 
     client = APIClient()
     response = client.post(reverse('recover-password-list'), data, format="json")
-    self.assertTrue(response.data['message'] == 'Password updated.')
+    self.assertTrue(response.data['message'] == 'Invalid email or token.')
+    self.assertTrue(response.status_code == 401)
 
-    # Test authentication new password
-    auth = authenticate('test_can_recover@password.com', 'newpassword')
-    self.assertTrue(auth.data['token'] != None)
+  def test_cant_recover_invalid_password(self):
+    """Assert that it's impossible to update password through recovery with an invalid user token"""
+    # Request token
+    user = create_user('test_cant_recover_invalid_pw@password.com')
+    response = create_token('test_cant_recover_invalid_pw@password.com')
+
+    # Get Token from mailbox
+    email_content = mail.outbox[1].alternatives[0][0]
+    token = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', email_content).group(0)
+
+    # Recover Password
+    data = {
+      'email': 'test_cant_recover_invalid_pw@password.com',
+      'token': token,
+      'new_password': 'ab'
+    }
+
+    client = APIClient()
+    response = client.post(reverse('recover-password-list'), data, format="json")
+    self.assertTrue(response.data['message'] == 'Invalid password.')
+    self.assertTrue(response.status_code == 400)
 
 class JWTAuthTestCase(TestCase):
   def test_can_login(self):
