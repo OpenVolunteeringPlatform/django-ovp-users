@@ -44,6 +44,12 @@ class UserCreateViewSetTestCase(TestCase):
     response = create_user()
     self.assertTrue(response.data['id'] > 0)
 
+  def test_cant_create_user_invalid_password(self):
+    """Assert that it's not possible to create an user with a repeated email"""
+    response = create_user('test_cant_create_invalid_password@test.com', 'abc')
+    self.assertTrue(len(response.data['password']) > 0)
+    self.assertTrue(isinstance(response.data['password'], list))
+
   def test_doesnt_return_password_on_user_creation(self):
     """Assert that the serializer does not return user hashed password """
     response = create_user()
