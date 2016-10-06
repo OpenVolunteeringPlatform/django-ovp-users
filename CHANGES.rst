@@ -30,4 +30,5 @@ v0.1.6[unreleased]
 * Add id to UserCreateSerializer
 * Add basic test cases to UserCreateViewSet and PasswordRecoveryViewSet
 * Add test cases to mailing().sendWelcome() and mailing.sendRecoveryToken()
+* Add codecov and coverage
 * [TODO] Add better test cases covering UserCreateViewSet and PasswordRecoveryViewSet
