@@ -46,11 +46,18 @@ class User(AbstractBaseUser):
   joined_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
   modified_date = models.DateTimeField(auto_now=True, null=True, blank=True)
 
+  objects = UserManager()
+  USERNAME_FIELD = 'email'
+
   def mailing(self):
     return emails.UserMail(self)
 
-  objects = UserManager()
-  USERNAME_FIELD = 'email'
+  def save(self, *args, **kwargs):
+    if not self.pk:
+      self.mailing().sendWelcome()
+
+    super(User, self).save(*args, **kwargs)
+
 
 class PasswordRecoveryToken(models.Model):
   user = models.ForeignKey('User', blank=True, null=True)

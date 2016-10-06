@@ -25,3 +25,5 @@ v0.1.5
 
 v0.1.6[unreleased]
 -----------
+* Add sync and async option to mailing
+* Create welcome email

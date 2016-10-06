@@ -1,6 +1,7 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, Template
 from django.template.loader import get_template
+from django.conf import settings
 
 import threading
 
@@ -30,9 +31,23 @@ class BaseMail:
     msg = EmailMultiAlternatives(subject, text_content, self.from_email, [self.user.email])
     msg.attach_alternative(text_content, "text/plain")
     msg.attach_alternative(html_content, "text/html")
-    EmailThread(msg).start()
+
+    send = getattr(settings, "DEFAULT_SEND_EMAIL", "async")
+    if send == "async":
+      EmailThread(msg).start()
+    else:
+      return msg.send() > 0
 
 class UserMail(BaseMail):
+  """
+  This class is responsible for firing emails for Users
+  """
+  def sendWelcome(self, context={}):
+    """
+    Sent when user registers
+    """
+    return self.sendEmail('welcome', 'Welcome', context)
+
   """
   This class is responsible for firing emails for Users
   """
@@ -40,4 +55,5 @@ class UserMail(BaseMail):
     """
     Sent when volunteer requests recovery token
     """
-    return self.sendEmail('recoveryToken', 'Solicitação de recuperação de senha', context)
+    return self.sendEmail('recoveryToken', 'Password recovery', context)
+
