@@ -41,5 +41,10 @@ v0.1.7
 * Improved test cases
 * Increase test coverage to 100%
 
-v0.1.8[unreleased]
+v0.1.8
 -----------
+* Fix conflict with tests when module is installed through pip
+
+v0.1.9[unreleased]
+-----------
+* Fix conflict with tests when module is installed through pip
