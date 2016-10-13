@@ -51,3 +51,4 @@ v0.1.9[unreleased]
 * Fix test command on README.rst
 * Fix password hashing
 * Include version badge to README.rst
+* Fix test command on README.rst
