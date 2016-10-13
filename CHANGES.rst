@@ -48,3 +48,4 @@ v0.1.8
 v0.1.9[unreleased]
 -----------
 * Include version badge to README.rst
+* Fix test command on README.rst

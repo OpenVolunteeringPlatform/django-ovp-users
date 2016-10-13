@@ -49,7 +49,7 @@ To test this module
 
 ::
 
-  python run_tests.py
+  python ovp_users/tests/runtests.py
 
 Contributing
 ---------------
