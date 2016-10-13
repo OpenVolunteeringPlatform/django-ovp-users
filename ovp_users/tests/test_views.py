@@ -186,7 +186,7 @@ class CurrentUserViewSetTestCase(TestCase):
 
     client = APIClient()
     client.login(username='test_can_get_current_user@test.com', password='validpassword')
-    response = client.get(reverse('current-user-list'), {}, format="json")
+    response = client.get(reverse('user-current-user'), {}, format="json")
     self.assertTrue(response.data.get('id', None))
     self.assertTrue(response.data.get('email', None))
     self.assertTrue(response.data.get('name', None))
@@ -194,6 +194,6 @@ class CurrentUserViewSetTestCase(TestCase):
   def test_ask_for_credentials(self):
     """Assert that unauthenticated users can't get current user info"""
     client = APIClient()
-    response = client.get(reverse('current-user-list'), {}, format="json")
+    response = client.get(reverse('user-current-user'), {}, format="json")
     self.assertTrue(response.data['detail'] == 'Authentication credentials were not provided.')
 

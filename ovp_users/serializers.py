@@ -1,7 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
+
 from ovp_users import models
+
 from rest_framework import serializers
+from rest_framework import permissions
 
 class UserCreateSerializer(serializers.ModelSerializer):
   class Meta:
@@ -10,19 +13,26 @@ class UserCreateSerializer(serializers.ModelSerializer):
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
-      password = data.get('password')
-
       errors = dict()
-      try:
-        validate_password(password=password)
-      except ValidationError as e:
-        errors['password'] = list(e.messages)
+
+      if data.get('password'):
+        password = data.get('password', '')
+        try:
+          validate_password(password=password)
+        except ValidationError as e:
+          errors['password'] = list(e.messages)
 
       if errors:
         raise serializers.ValidationError(errors)
 
       return super(UserCreateSerializer, self).validate(data)
 
+class UserUpdateSerializer(UserCreateSerializer):
+  class Meta:
+    model = models.User
+    permission_classes = (permissions.IsAuthenticated,)
+    fields = ['password']
+    extra_kwargs = {'password': {'write_only': True}}
 
 class UserSearchSerializer(serializers.ModelSerializer):
   class Meta:

@@ -4,6 +4,7 @@ from ovp_users import emails
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 
 from django.db import models
 from django.utils import timezone
@@ -34,12 +35,13 @@ class UserManager(BaseUserManager):
   class Meta:
     app_label = 'atados_core'
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField('Email', max_length=254, unique=True)
   name = models.CharField('Name', max_length=200, null=False, blank=False)
   slug = models.SlugField('Slug', max_length=100, null=True, blank=True, unique=True)
 
   is_staff = models.BooleanField('Staff', default=False)
+  is_superuser = models.BooleanField('Superuser', default=False)
   is_active = models.BooleanField('Active', default=True)
   is_email_verified = models.BooleanField('Email verified', default=False)
 
@@ -65,6 +67,9 @@ class User(AbstractBaseUser):
       self.set_password(self.password) # hash it
 
     super(User, self).save(*args, **kwargs)
+
+  def get_short_name(self):
+    return self.name
 
 
 class PasswordRecoveryToken(models.Model):
