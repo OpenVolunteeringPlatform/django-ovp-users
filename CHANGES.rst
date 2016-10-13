@@ -47,4 +47,4 @@ v0.1.8
 
 v0.1.9[unreleased]
 -----------
-* Fix conflict with tests when module is installed through pip
+* Include version badge to README.rst
