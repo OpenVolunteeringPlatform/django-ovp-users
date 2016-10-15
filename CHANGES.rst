@@ -45,8 +45,9 @@ v0.1.8
 -----------
 * Fix conflict with tests when module is installed through pip
 
-v0.1.9[unreleased]
+v1.0.0
 -----------
 * Include version badge to README.rst
 * Fix test command on README.rst
 * Fix password hashing
+* Stable current user implementation
