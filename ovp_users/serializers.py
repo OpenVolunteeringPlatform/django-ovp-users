@@ -13,19 +13,19 @@ class UserCreateSerializer(serializers.ModelSerializer):
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
-      errors = dict()
+    errors = dict()
 
-      if data.get('password'):
-        password = data.get('password', '')
-        try:
-          validate_password(password=password)
-        except ValidationError as e:
-          errors['password'] = list(e.messages)
+    if data.get('password'):
+      password = data.get('password', '')
+      try:
+        validate_password(password=password)
+      except ValidationError as e:
+        errors['password'] = list(e.messages)
 
-      if errors:
-        raise serializers.ValidationError(errors)
+    if errors:
+      raise serializers.ValidationError(errors)
 
-      return super(UserCreateSerializer, self).validate(data)
+    return super(UserCreateSerializer, self).validate(data)
 
 class UserUpdateSerializer(UserCreateSerializer):
   class Meta:
