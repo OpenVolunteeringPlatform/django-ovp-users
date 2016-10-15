@@ -1,6 +1,5 @@
 from ovp_users import serializers
 from ovp_users import models
-from ovp_users import permissions as ovp_permissions
 
 from rest_framework import decorators
 from rest_framework import mixins
@@ -18,7 +17,7 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
   def current_user_get(self, request, *args, **kwargs):
-    queryset = self.get_queryset().get(pk=request.user.pk)
+    queryset = self.get_object()
     serializer = self.get_serializer(queryset)
     return response.Response(serializer.data)
 
@@ -47,17 +46,19 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     request = self.get_serializer_context()['request']
     if self.action == 'current_user':
       return self.get_queryset().get(pk=request.user.pk)
-    return super(UserResourceViewSet, self).get_object()
+
+    # Shouldn't really be called for current implementation
+    # but here as fail-safe for future updates
+    return super(UserResourceViewSet, self).get_object() #pragma: no cover
 
   # We need to override get_permissions and get_serializer_class to work
   # with multiple serializers and permissions
   def get_permissions(self):
-    if self.action == ['create']:
+    request = self.get_serializer_context()['request']
+    if self.action == 'create':
       self.permission_classes = []
     elif self.action in ['current_user']:
       self.permission_classes = [permissions.IsAuthenticated, ]
-    elif self.action in ['current_user_update', 'current_user_partial_update']:
-      self.permission_classes = [permissions.IsAuthenticated, ovp_permissions.IsOwnerOrReadOnly]
 
     return super(UserResourceViewSet, self).get_permissions()
 

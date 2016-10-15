@@ -20,3 +20,13 @@ class TestUserManager(TestCase):
     """Assert that UserManager can create super user"""
     user = User.objects.create_superuser('test_create_superuser@test.com', 'validpassword')
     self.assertTrue(user.id > 0)
+
+class TestUserModel(TestCase):
+  def test_short_name(self):
+    """Assert that get_short_name returns name"""
+    user = User.objects.create_user('test_short_name@test.com', 'validpassword')
+    user.name="Abc def"
+    user.save()
+
+    self.assertTrue(user.get_short_name() == user.name)
+

@@ -6,6 +6,8 @@ from django.core import mail
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 
+from ovp_users import models
+
 def create_user(email="validemail@gmail.com", password="validpassword"):
   data = {
     'name': 'Valid Name',
@@ -33,7 +35,7 @@ def create_token(email='test@recovery.token'):
   client = APIClient()
   return client.post(reverse('recovery-token-list'), data, format="json")
 
-class UserCreateViewSetTestCase(TestCase):
+class UserResourceViewSetTestCase(TestCase):
   def test_can_create_user(self):
     """Assert that it's possible to create an user"""
     response = create_user()
@@ -54,6 +56,51 @@ class UserCreateViewSetTestCase(TestCase):
     """Assert that the serializer does not return user hashed password """
     response = create_user()
     self.assertTrue(response.data.get('password', None) == None)
+
+  def test_can_patch_password(self):
+    """Assert that it's possible to update user password"""
+    response = create_user('test_can_patch_password@test.com', 'abcabcabc')
+    u = models.User.objects.get(pk=response.data['id'])
+
+    data = {'password': 'pwpw12341234'}
+    client = APIClient()
+    client.force_authenticate(user=u)
+    response = client.patch(reverse('user-current-user'), data, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    response = authenticate('test_can_patch_password@test.com', data['password'])
+    self.assertTrue(response.data['token'] != None)
+
+  def test_can_put_password(self):
+    """Assert that it's possible to update user password"""
+    response = create_user('test_can_put_password@test.com', 'abcabcabc')
+    u = models.User.objects.get(pk=response.data['id'])
+
+    data = {'password': 'pwpw12341234'}
+    client = APIClient()
+    client.force_authenticate(user=u)
+    response = client.put(reverse('user-current-user'), data, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    response = authenticate('test_can_put_password@test.com', data['password'])
+    self.assertTrue(response.data['token'] != None)
+
+  def test_can_get_current_user(self):
+    """Assert that authenticated users can get associated info"""
+    user = create_user('test_can_get_current_user@test.com', 'validpassword')
+
+    client = APIClient()
+    client.login(username='test_can_get_current_user@test.com', password='validpassword')
+    response = client.get(reverse('user-current-user'), {}, format="json")
+    self.assertTrue(response.data.get('id', None))
+    self.assertTrue(response.data.get('email', None))
+    self.assertTrue(response.data.get('name', None))
+
+  def test_ask_for_credentials(self):
+    """Assert that unauthenticated users can't get current user info"""
+    client = APIClient()
+    response = client.get(reverse('user-current-user'), {}, format="json")
+    self.assertTrue(response.data['detail'] == 'Authentication credentials were not provided.')
 
 class RecoveryTokenViewSetTestCase(TestCase):
   def test_can_create_token(self):
@@ -166,6 +213,7 @@ class RecoverPasswordViewSetTestCase(TestCase):
     self.assertTrue(response.data['message'] == 'Invalid password.')
     self.assertTrue(response.status_code == 400)
 
+
 class JWTAuthTestCase(TestCase):
   def test_can_login(self):
     """Assert that it's possible to login"""
@@ -178,22 +226,4 @@ class JWTAuthTestCase(TestCase):
     user = create_user('test_can_login@test.com', 'invalidpassword')
     response = authenticate()
     self.assertTrue(response.data['non_field_errors'][0] == 'Unable to login with provided credentials.')
-
-class CurrentUserViewSetTestCase(TestCase):
-  def test_can_get_current_user(self):
-    """Assert that authenticated users can get associated info"""
-    user = create_user('test_can_get_current_user@test.com', 'validpassword')
-
-    client = APIClient()
-    client.login(username='test_can_get_current_user@test.com', password='validpassword')
-    response = client.get(reverse('user-current-user'), {}, format="json")
-    self.assertTrue(response.data.get('id', None))
-    self.assertTrue(response.data.get('email', None))
-    self.assertTrue(response.data.get('name', None))
-
-  def test_ask_for_credentials(self):
-    """Assert that unauthenticated users can't get current user info"""
-    client = APIClient()
-    response = client.get(reverse('user-current-user'), {}, format="json")
-    self.assertTrue(response.data['detail'] == 'Authentication credentials were not provided.')
 
