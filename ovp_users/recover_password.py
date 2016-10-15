@@ -98,7 +98,7 @@ class RecoverPasswordViewSet(viewsets.GenericViewSet):
     rt.used_date=timezone.now()
     rt.save()
 
-    rt.user.set_password(new_password)
+    rt.user.password = new_password
     rt.user.save()
 
     return response.Response({'message': 'Password updated.'})

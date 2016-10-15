@@ -59,11 +59,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     return emails.UserMail(self, async_mail)
 
   def save(self, *args, **kwargs):
-    if not self.pk:
-      self.mailing().sendWelcome()
+    hash_password = False
 
-    # Password being updated
-    if self.__original_password == self.password:
+    if not self.pk:
+      hash_password = True
+      self.mailing().sendWelcome()
+    else:
+      if self.__original_password != self.password:
+        # Password being updated
+        hash_password = True
+
+    if hash_password:
       self.set_password(self.password) # hash it
 
     super(User, self).save(*args, **kwargs)

@@ -17,26 +17,37 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
   lookup_field = 'email'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
-  @decorators.list_route(methods=["GET"])
-  def current_user(self, request, *args, **kwargs):
+  def current_user_get(self, request, *args, **kwargs):
     queryset = self.get_queryset().get(pk=request.user.pk)
     serializer = self.get_serializer(queryset)
     return response.Response(serializer.data)
 
-  @decorators.list_route(url_path="current_user", methods=["PUT"])
-  def current_user_update(self, request, *args, **kwargs):
-    # whatever
-    return response.Response({})
-    #partial = kwargs.pop('partial', False)
-    #instance = self.get_object()
-    #serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #serializer.is_valid(raise_exception=True)
-    #return response(serializer.data)
+  def current_user_put(self, request, *args, **kwargs):
+    partial = kwargs.pop('partial', False)
+    instance = self.get_object()
+    serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return response.Response(serializer.data)
 
-  @decorators.list_route(url_path="current_user", methods=["PATCH"])
-  def current_user_partial_update(self, request, *args, **kwargs):
+  def current_user_patch(self, request, *args, **kwargs):
     kwargs['partial'] = True
-    return self.current_user_update(request, *args, **kwargs)
+    return self.current_user_put(request, *args, **kwargs)
+
+  @decorators.list_route(url_path="current-user", methods=['GET', 'PATCH', 'PUT'])
+  def current_user(self, request, *args, **kwargs):
+    if request.method == 'GET':
+      return self.current_user_get(request, *args, **kwargs)
+    if request.method == 'PUT':
+      return self.current_user_put(request, *args, **kwargs)
+    if request.method == 'PATCH':
+      return self.current_user_patch(request, *args, **kwargs)
+
+  def get_object(self):
+    request = self.get_serializer_context()['request']
+    if self.action == 'current_user':
+      return self.get_queryset().get(pk=request.user.pk)
+    return super(UserResourceViewSet, self).get_object()
 
   # We need to override get_permissions and get_serializer_class to work
   # with multiple serializers and permissions
@@ -51,9 +62,12 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     return super(UserResourceViewSet, self).get_permissions()
 
   def get_serializer_class(self):
+    request = self.get_serializer_context()['request']
     if self.action == 'create':
       return serializers.UserCreateSerializer
-    elif self.action in ['current_user']:
-      return serializers.UserSearchSerializer
-    elif self.action in ['current_user_update', 'current_user_partial_update']:
-      return serializers.UserUpdateSerializer
+
+    if self.action == 'current_user':
+      if request.method == "GET":
+        return serializers.UserSearchSerializer
+      elif request.method in ["PUT", "PATCH"]:
+        return serializers.UserUpdateSerializer
