@@ -56,5 +56,11 @@ v1.0.1
 -----------
 * Add meta with app_label to models
 
-v1.0.2[unreleased]
+v1.0.2
 -----------
+wrongly released version 1.0.1 as 1.0.2.
+skipping this version
+
+v1.0.3
+-----------
+* Test release to check wether tests are included on dist
