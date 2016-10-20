@@ -64,3 +64,7 @@ skipping this version
 v1.0.3
 -----------
 * Test release to check wether tests are included on dist
+
+v1.0.4
+-----------
+* Update setup.py packages to find_packages()
