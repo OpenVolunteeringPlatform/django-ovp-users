@@ -3,12 +3,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='ovp-users',
-    version='1.0.4',
+    version='1.0.5',
     author=u'Atados',
     author_email='arroyo@atados.com.br',
     packages=find_packages(),
     url='https://github.com/OpenVolunteeringPlatform/ovp-users',
-    download_url = 'https://github.com/OpenVolunteeringPlatform/ovp-users/tarball/1.0.4',
+    download_url = 'https://github.com/OpenVolunteeringPlatform/ovp-users/tarball/1.0.5',
     license='AGPL',
     description='This module has core functionality for' + \
                 ' ovp users, such as authentication, user management' + \
