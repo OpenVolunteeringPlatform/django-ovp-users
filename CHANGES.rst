@@ -51,3 +51,7 @@ v1.0.0
 * Fix test command on README.rst
 * Fix password hashing
 * Stable current user implementation
+
+v1.0.1
+-----------
+* Add meta with app_label to models

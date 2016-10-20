@@ -77,6 +77,9 @@ class User(AbstractBaseUser, PermissionsMixin):
   def get_short_name(self):
     return self.name
 
+  class Meta:
+    app_label = 'ovp_users'
+
 
 class PasswordRecoveryToken(models.Model):
   user = models.ForeignKey('User', blank=True, null=True)
@@ -90,3 +93,6 @@ class PasswordRecoveryToken(models.Model):
       self.user.mailing().sendRecoveryToken({'token': self.token})
 
     super(PasswordRecoveryToken, self).save(*args, **kwargs)
+
+  class Meta:
+    app_label = 'ovp_users'
