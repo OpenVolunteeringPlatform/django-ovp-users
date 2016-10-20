@@ -68,3 +68,8 @@ v1.0.3
 v1.0.4
 -----------
 * Update setup.py packages to find_packages()
+* Drop distutils in favor of setuptools
+
+v1.0.5
+-----------
+* Add *.egg-info to .gitignore
