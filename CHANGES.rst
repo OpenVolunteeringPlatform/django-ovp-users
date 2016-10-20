@@ -55,3 +55,6 @@ v1.0.0
 v1.0.1
 -----------
 * Add meta with app_label to models
+
+v1.0.2[unreleased]
+-----------
