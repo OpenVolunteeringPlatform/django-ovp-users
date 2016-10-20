@@ -74,5 +74,9 @@ v1.0.5
 -----------
 * Add .egg-info to .gitignore
 
-v1.0.6[unreleased]
+v1.0.6
+-----------
+* Distribute templates folder with module
+
+v1.0.7[unreleased]
 -----------
