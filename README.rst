@@ -6,7 +6,7 @@ OVP Users
 .. image:: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-users/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-users
 .. image:: https://badge.fury.io/py/ovp-users.svg
-    :target: https://badge.fury.io/py/ovp-users
+  :target: https://badge.fury.io/py/ovp-users
 
 This module implements core user functionality.
 
