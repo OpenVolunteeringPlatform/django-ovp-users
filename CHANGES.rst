@@ -86,5 +86,9 @@ v1.0.8
 -----------
 * fix readme syntax error
 
-v1.0.9[unreleased]
+v1.0.9
+-----------
+* Add phone to user model
+
+v1.0.10[unreleased]
 -----------

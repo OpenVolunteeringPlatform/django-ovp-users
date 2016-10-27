@@ -39,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField('Email', max_length=254, unique=True)
   name = models.CharField('Name', max_length=200, null=False, blank=False)
   slug = models.SlugField('Slug', max_length=100, null=True, blank=True, unique=True)
+  phone = models.CharField('Phone', max_length=30, null=True, blank=True)
 
   is_staff = models.BooleanField('Staff', default=False)
   is_superuser = models.BooleanField('Superuser', default=False)
