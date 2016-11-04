@@ -1,4 +1,8 @@
-Olá, você está recebendo este email pois solicitou uma recuperação de senha.<br>
-Para escolher uma nova senha, clique neste <a href="{{token}}">{{token}}</a>. O link é válido por 24 horas.<br>
+{% extends "email/base.html" %}
+
+{% block content %}
+Hello, you're receiving this email because you requested password recovery.<br>
+To choose a new password, accesse <a href="{{token}}">{{token}}</a>. This link is valid for 24 hours.<br>
 <br>
-Caso não tenha solicitado a alteração, ignore este email.
+If you haven't requested password recovery, please ignore this email.
+{% endblock %}

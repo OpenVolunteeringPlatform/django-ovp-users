@@ -1,4 +1,8 @@
-Olá, você está recebendo este email pois solicitou uma recuperação de senha.
-Para escolher uma nova senha, acesse {{token}}. O link é válido por 24 horas.
+{% extends "email/base.txt" %}
 
-Caso não tenha solicitado a alteração, ignore este email.
+{% block content %}
+Hello, you're receiving this email because you requested password recovery.
+To choose a new password, accesse {{token}}. This link is valid for 24 hours.
+
+If you haven't requested password recovery, please ignore this email.
+{% endblock %}

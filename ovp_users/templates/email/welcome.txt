@@ -1,1 +1,5 @@
-Olá, seja bem-vindo ao sistema.
+{% extends "email/base.txt" %}
+
+{% block content %}
+Hello, welcome to the system.
+{% endblock %}
