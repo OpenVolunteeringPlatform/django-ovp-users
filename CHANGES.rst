@@ -92,3 +92,5 @@ v1.0.9
 
 v1.0.10[unreleased]
 -----------
+* Move BaseMail to ovp-core
+* Change emails content to english
