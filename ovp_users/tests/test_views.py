@@ -76,7 +76,7 @@ class UserResourceViewSetTestCase(TestCase):
     response = create_user('test_can_put_password@test.com', 'abcabcabc')
     u = models.User.objects.get(pk=response.data['id'])
 
-    data = {'password': 'pwpw12341234'}
+    data = {'name': 'abc', 'password': 'pwpw12341234'}
     client = APIClient()
     client.force_authenticate(user=u)
     response = client.put(reverse('user-current-user'), data, format="json")
