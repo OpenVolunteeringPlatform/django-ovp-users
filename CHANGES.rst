@@ -90,7 +90,12 @@ v1.0.9
 -----------
 * Add phone to user model
 
-v1.0.10[unreleased]
+v1.0.10
 -----------
 * Move BaseMail to ovp-core
+* Add ovp-core as dependency
 * Change emails content to english
+* Rename test_coverage to test_execution
+
+v1.0.11[unreleased]
+-----------
