@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
     return user
 
   class Meta:
-    app_label = 'atados_core'
+    app_label = 'ovp_user'
 
 class User(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField('Email', max_length=254, unique=True)
