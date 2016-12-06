@@ -5,7 +5,7 @@ OVP Users
 .. image:: https://img.shields.io/codeship/b8242540-6d59-0134-3942-5649fa39e129/master.svg?style=flat-square
 .. image:: https://img.shields.io/codecov/c/github/OpenVolunteeringPlatform/django-ovp-users.svg?style=flat-square
   :target: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-users
-.. image:: https://badge.fury.io/py/ovp-users.svg?style=flat-square
+.. image:: https://img.shields.io/pypi/v/ovp-users.svg?style=flat-square
   :target: https://pypi.python.org/pypi/ovp-users/
 
 This module implements core user functionality.
