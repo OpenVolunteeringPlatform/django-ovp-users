@@ -2,11 +2,11 @@
 OVP Users
 ==========
 
-.. image:: https://app.codeship.com/projects/b8242540-6d59-0134-3942-5649fa39e129/status?branch=master
-.. image:: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-users/branch/master/graph/badge.svg
+.. image:: https://img.shields.io/codeship/b8242540-6d59-0134-3942-5649fa39e129/master.svg?style=flat-square
+.. image:: https://img.shields.io/codecov/c/github/OpenVolunteeringPlatform/django-ovp-users.svg?style=flat-square
   :target: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-users
-.. image:: https://badge.fury.io/py/ovp-users.svg
-  :target: https://badge.fury.io/py/ovp-users
+.. image:: https://badge.fury.io/py/ovp-users.svg?style=flat-square
+  :target: https://pypi.python.org/pypi/ovp-users/
 
 This module implements core user functionality.
 
