@@ -34,7 +34,7 @@ class UserUpdateSerializer(UserCreateSerializer):
     fields = ['name', 'phone', 'password', 'avatar']
     extra_kwargs = {'password': {'write_only': True}}
 
-class UserSearchSerializer(serializers.ModelSerializer):
+class UserPublicRetrieveSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
     fields = ['name', 'avatar']
