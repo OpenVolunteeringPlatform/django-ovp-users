@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(BASE_DIR, '../..')))
 CUSTOM_INSTALLED_APPS = (
     'ovp_core',
     'ovp_users',
+    'ovp_uploads',
     'django.contrib.admin',
 )
 

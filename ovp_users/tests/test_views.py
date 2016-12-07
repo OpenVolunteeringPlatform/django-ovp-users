@@ -92,7 +92,6 @@ class UserResourceViewSetTestCase(TestCase):
     client = APIClient()
     client.login(username='test_can_get_current_user@test.com', password='validpassword')
     response = client.get(reverse('user-current-user'), {}, format="json")
-    self.assertTrue(response.data.get('id', None))
     self.assertTrue(response.data.get('email', None))
     self.assertTrue(response.data.get('name', None))
 

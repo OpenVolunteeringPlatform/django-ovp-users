@@ -69,6 +69,6 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     if self.action == 'current_user':
       if request.method == "GET":
-        return serializers.UserPublicRetrieveSerializer
+        return serializers.CurrentUserSerializer
       elif request.method in ["PUT", "PATCH"]:
         return serializers.UserUpdateSerializer

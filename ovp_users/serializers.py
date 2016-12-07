@@ -34,6 +34,11 @@ class UserUpdateSerializer(UserCreateSerializer):
     fields = ['name', 'phone', 'password', 'avatar']
     extra_kwargs = {'password': {'write_only': True}}
 
+class CurrentUserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = models.User
+    fields = ['id', 'name', 'phone', 'avatar', 'email']
+
 class UserPublicRetrieveSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User

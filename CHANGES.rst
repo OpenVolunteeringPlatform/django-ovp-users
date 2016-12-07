@@ -105,5 +105,9 @@ v1.0.12
 -----------
 * Fix dependencies
 
-v1.0.12[unreleased]
+v1.0.13
+-----------
+* FIx current user serializer
+
+v1.0.14[unreleased]
 -----------
