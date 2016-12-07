@@ -101,5 +101,9 @@ v1.0.11
 -----------
 * Add avatar to user model
 
+v1.0.12
+-----------
+* Fix dependencies
+
 v1.0.12[unreleased]
 -----------
