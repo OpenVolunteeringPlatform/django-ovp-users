@@ -5,3 +5,4 @@ djangorestframework==3.5.3
 djangorestframework-jwt==1.8.0
 python-dateutil==2.5.3
 ovp-core==1.0.1
+ovp-uploads==1.0.0
