@@ -40,6 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   name = models.CharField('Name', max_length=200, null=False, blank=False)
   slug = models.SlugField('Slug', max_length=100, null=True, blank=True, unique=True)
   phone = models.CharField('Phone', max_length=30, null=True, blank=True)
+  avatar = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name='avatar_user')
 
   is_staff = models.BooleanField('Staff', default=False)
   is_superuser = models.BooleanField('Superuser', default=False)

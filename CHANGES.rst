@@ -97,5 +97,9 @@ v1.0.10
 * Change emails content to english
 * Rename test_coverage to test_execution
 
-v1.0.11[unreleased]
+v1.0.11
+-----------
+* Add avatar to user model
+
+v1.0.12[unreleased]
 -----------

@@ -9,7 +9,7 @@ from rest_framework import permissions
 class UserCreateSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'email', 'password', 'phone']
+    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar']
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
@@ -31,13 +31,13 @@ class UserUpdateSerializer(UserCreateSerializer):
   class Meta:
     model = models.User
     permission_classes = (permissions.IsAuthenticated,)
-    fields = ['name', 'phone', 'password']
+    fields = ['name', 'phone', 'password', 'avatar']
     extra_kwargs = {'password': {'write_only': True}}
 
 class UserSearchSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'email', 'phone']
+    fields = ['name', 'avatar']
 
 class RecoveryTokenSerializer(serializers.Serializer):
   email = serializers.CharField(required=True)
