@@ -107,7 +107,11 @@ v1.0.12
 
 v1.0.13
 -----------
-* FIx current user serializer
+* Fix current user serializer
 
-v1.0.14[unreleased]
+v1.0.14
+-----------
+* Add id to UserPublicRetrieveSerializer
+
+v1.0.15[unreleased]
 -----------

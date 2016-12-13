@@ -42,7 +42,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
 class UserPublicRetrieveSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
-    fields = ['name', 'avatar']
+    fields = ['id', 'name', 'avatar']
 
 class RecoveryTokenSerializer(serializers.Serializer):
   email = serializers.CharField(required=True)
