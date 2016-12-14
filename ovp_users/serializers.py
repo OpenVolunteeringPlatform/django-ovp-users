@@ -44,6 +44,11 @@ class UserPublicRetrieveSerializer(serializers.ModelSerializer):
     model = models.User
     fields = ['id', 'name', 'avatar']
 
+class UserApplyRetrieveSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = models.User
+    fields = ['id', 'name', 'avatar', 'phone', 'email']
+
 class RecoveryTokenSerializer(serializers.Serializer):
   email = serializers.CharField(required=True)
 

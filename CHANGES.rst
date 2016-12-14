@@ -113,5 +113,9 @@ v1.0.14
 -----------
 * Add id to UserPublicRetrieveSerializer
 
+v1.0.15
+-----------
+* Create UserApplyRetrieveSerializer
+
 v1.0.15[unreleased]
 -----------
