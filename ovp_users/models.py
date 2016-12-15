@@ -67,12 +67,13 @@ class User(AbstractBaseUser, PermissionsMixin):
       hash_password = True
       self.mailing().sendWelcome()
     else:
-      if self.__original_password != self.password:
-        # Password being updated
+      # checks if password has changed and if it was set by set_password
+      if self.__original_password != self.password and not self.check_password(self._password):
         hash_password = True
 
     if hash_password:
       self.set_password(self.password) # hash it
+      self.__original_password = self.password
 
     super(User, self).save(*args, **kwargs)
 

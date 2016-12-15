@@ -113,5 +113,9 @@ v1.0.14
 -----------
 * Add id to UserPublicRetrieveSerializer
 
-v1.0.15[unreleased]
+v1.0.15
+-----------
+* Fix password rehashing whithin multiples saves
+
+v1.0.16[unreleased]
 -----------
