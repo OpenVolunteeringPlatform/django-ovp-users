@@ -117,5 +117,9 @@ v1.0.15
 -----------
 * Create UserApplyRetrieveSerializer
 
-v1.0.15[unreleased]
+v1.0.16
+-----------
+* Fix password rehashing whithin multiples saves
+
+v1.0.17[unreleased]
 -----------
