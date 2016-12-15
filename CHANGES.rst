@@ -117,5 +117,9 @@ v1.0.15
 -----------
 * Create UserApplyRetrieveSerializer
 
-v1.0.15[unreleased]
+v1.0.16
+-----------
+* Include avatar resourcer on Users serializers
+
+v1.0.17[unreleased]
 -----------
