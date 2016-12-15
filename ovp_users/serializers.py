@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 
 from ovp_users import models
+from ovp_uploads.serializers import UploadedImageSerializer
 
 from rest_framework import serializers
 from rest_framework import permissions
@@ -35,16 +36,22 @@ class UserUpdateSerializer(UserCreateSerializer):
     extra_kwargs = {'password': {'write_only': True}}
 
 class CurrentUserSerializer(serializers.ModelSerializer):
+  avatar = UploadedImageSerializer()
+
   class Meta:
     model = models.User
     fields = ['id', 'name', 'phone', 'avatar', 'email']
 
 class UserPublicRetrieveSerializer(serializers.ModelSerializer):
+  avatar = UploadedImageSerializer()
+
   class Meta:
     model = models.User
     fields = ['id', 'name', 'avatar']
 
 class UserApplyRetrieveSerializer(serializers.ModelSerializer):
+  avatar = UploadedImageSerializer()
+
   class Meta:
     model = models.User
     fields = ['id', 'name', 'avatar', 'phone', 'email']
