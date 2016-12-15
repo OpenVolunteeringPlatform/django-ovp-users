@@ -49,6 +49,13 @@ class UserPublicRetrieveSerializer(serializers.ModelSerializer):
     model = models.User
     fields = ['id', 'name', 'avatar']
 
+class UserProjectRetrieveSerializer(serializers.ModelSerializer):
+  avatar = UploadedImageSerializer()
+
+  class Meta:
+    model = models.User
+    fields = ['id', 'name', 'avatar', 'email', 'phone']
+
 class UserApplyRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
 

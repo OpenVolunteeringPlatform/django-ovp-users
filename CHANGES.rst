@@ -123,3 +123,7 @@ v1.0.16
 
 v1.0.17[unreleased]
 -----------
+* Create UserProjectRetrieveSerializer
+
+v1.0.18[unreleased]
+-----------
