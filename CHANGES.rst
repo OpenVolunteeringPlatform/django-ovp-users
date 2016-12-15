@@ -121,7 +121,7 @@ v1.0.16
 -----------
 * Include avatar resourcer on Users serializers
 
-v1.0.17[unreleased]
+v1.0.17
 -----------
 * Create UserProjectRetrieveSerializer
 
