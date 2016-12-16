@@ -127,3 +127,4 @@ v1.0.17
 
 v1.0.18[unreleased]
 -----------
+* Asks for current_password when updating user password
