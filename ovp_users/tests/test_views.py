@@ -57,12 +57,24 @@ class UserResourceViewSetTestCase(TestCase):
     response = create_user()
     self.assertTrue(response.data.get('password', None) == None)
 
+  def test_cant_patch_password_without_current_password(self):
+    """Assert that it's not possible to update user password without the current password"""
+    response = create_user('test_can_patch_password@test.com', 'abcabcabc')
+    u = models.User.objects.get(pk=response.data['id'])
+
+    data = {'password': 'pwpw12341234'}
+    client = APIClient()
+    client.force_authenticate(user=u)
+    response = client.patch(reverse('user-current-user'), data, format="json")
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(response.data["current_password"] == ["Invalid password."])
+
   def test_can_patch_password(self):
     """Assert that it's possible to update user password"""
     response = create_user('test_can_patch_password@test.com', 'abcabcabc')
     u = models.User.objects.get(pk=response.data['id'])
 
-    data = {'password': 'pwpw12341234'}
+    data = {'password': 'pwpw12341234', 'current_password': 'abcabcabc'}
     client = APIClient()
     client.force_authenticate(user=u)
     response = client.patch(reverse('user-current-user'), data, format="json")
@@ -76,7 +88,7 @@ class UserResourceViewSetTestCase(TestCase):
     response = create_user('test_can_put_password@test.com', 'abcabcabc')
     u = models.User.objects.get(pk=response.data['id'])
 
-    data = {'name': 'abc', 'password': 'pwpw12341234'}
+    data = {'name': 'abc', 'password': 'pwpw12341234', 'current_password': 'abcabcabc'}
     client = APIClient()
     client.force_authenticate(user=u)
     response = client.put(reverse('user-current-user'), data, format="json")

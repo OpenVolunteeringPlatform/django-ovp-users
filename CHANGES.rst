@@ -119,7 +119,19 @@ v1.0.15
 
 v1.0.16
 -----------
+* Include avatar resourcer on Users serializers
+
+v1.0.17
+-----------
+* Create UserProjectRetrieveSerializer
+
+v1.0.18
+-----------
+* Asks for current_password when updating user password
+
+v1.0.19
+-----------
 * Fix password rehashing whithin multiples saves
 
-v1.0.17[unreleased]
+v1.0.20[unreleased]
 -----------
