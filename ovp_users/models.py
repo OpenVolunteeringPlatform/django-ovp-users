@@ -20,7 +20,7 @@ class UserManager(BaseUserManager):
                       is_active=True, last_login=now,
                       joined_date=now, **extra_fields)
 
-    user.set_password(password)
+    user.password = password
     user.save()
     return user
 
