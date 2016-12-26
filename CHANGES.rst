@@ -133,6 +133,9 @@ v1.0.19
 -----------
 * Add email to recoveryToken email context
 
-v1.0.20[unreleased]
+v1.0.20
 -----------
 * Fix password rehashing whithin multiples saves
+
+v1.0.21[unreleased]
+-----------
