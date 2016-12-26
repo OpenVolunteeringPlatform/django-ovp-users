@@ -129,5 +129,9 @@ v1.0.18
 -----------
 * Asks for current_password when updating user password
 
-v1.0.19[unreleased]
+v1.0.19
+-----------
+* Add email to recoveryToken email context
+
+v1.0.20[unreleased]
 -----------
