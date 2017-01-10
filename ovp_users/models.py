@@ -9,6 +9,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 
+from django.utils.translation import ugettext_lazy as _
 
 class UserManager(BaseUserManager):
   def create_user(self, email, password=None, **extra_fields):
@@ -36,19 +37,19 @@ class UserManager(BaseUserManager):
     app_label = 'ovp_user'
 
 class User(AbstractBaseUser, PermissionsMixin):
-  email = models.EmailField('Email', max_length=254, unique=True)
-  name = models.CharField('Name', max_length=200, null=False, blank=False)
-  slug = models.SlugField('Slug', max_length=100, null=True, blank=True, unique=True)
-  phone = models.CharField('Phone', max_length=30, null=True, blank=True)
-  avatar = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name='avatar_user')
+  email = models.EmailField(_('Email'), max_length=254, unique=True)
+  name = models.CharField(_('Name'), max_length=200, null=False, blank=False)
+  slug = models.SlugField(_('Slug'), max_length=100, null=True, blank=True, unique=True)
+  phone = models.CharField(_('Phone'), max_length=30, null=True, blank=True)
+  avatar = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name='avatar_user', verbose_name=_('avatar'))
 
-  is_staff = models.BooleanField('Staff', default=False)
-  is_superuser = models.BooleanField('Superuser', default=False)
-  is_active = models.BooleanField('Active', default=True)
-  is_email_verified = models.BooleanField('Email verified', default=False)
+  is_staff = models.BooleanField(_('Staff'), default=False)
+  is_superuser = models.BooleanField(_('Superuser'), default=False)
+  is_active = models.BooleanField(_('Active'), default=True)
+  is_email_verified = models.BooleanField(_('Email verified'), default=False)
 
-  joined_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-  modified_date = models.DateTimeField(auto_now=True, null=True, blank=True)
+  joined_date = models.DateTimeField(_('Joined date'), auto_now_add=True, null=True, blank=True)
+  modified_date = models.DateTimeField(_('Modified date'), auto_now=True, null=True, blank=True)
 
   objects = UserManager()
   USERNAME_FIELD = 'email'
@@ -86,9 +87,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class PasswordRecoveryToken(models.Model):
   user = models.ForeignKey('User', blank=True, null=True)
-  token = models.CharField('Token', max_length=128, null=False, blank=False)
-  created_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-  used_date = models.DateTimeField(default=None, blank=True, null=True)
+  token = models.CharField(_('Token'), max_length=128, null=False, blank=False)
+  created_date = models.DateTimeField(_('Created date'), auto_now_add=True, blank=True, null=True)
+  used_date = models.DateTimeField(_('Used date'), default=None, blank=True, null=True)
 
   def save(self, *args, **kwargs):
     if not self.pk:
