@@ -137,6 +137,9 @@ v1.0.20
 -----------
 * Fix password rehashing whithin multiples saves
 
-v1.0.21[unreleased]
+v1.0.21
 -----------
 * Upgrade dependencies
+
+v1.0.22[unreleased]
+-----------
