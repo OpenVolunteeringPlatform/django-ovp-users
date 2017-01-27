@@ -139,3 +139,4 @@ v1.0.20
 
 v1.0.21[unreleased]
 -----------
+* Upgrade dependencies
