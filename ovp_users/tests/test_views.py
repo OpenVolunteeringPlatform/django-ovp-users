@@ -97,6 +97,19 @@ class UserResourceViewSetTestCase(TestCase):
     response = authenticate('test_can_put_password@test.com', data['password'])
     self.assertTrue(response.data['token'] != None)
 
+  def test_cant_update_invalid_password(self):
+    """Assert that it's impossible to update user password to a invalid password"""
+    response = create_user('test_can_put_password@test.com', 'abcabcabc')
+    u = models.User.objects.get(pk=response.data['id'])
+
+    data = {'name': 'abc', 'password': 'abc', 'current_password': 'abcabcabc'}
+    client = APIClient()
+    client.force_authenticate(user=u)
+    response = client.put(reverse('user-current-user'), data, format="json")
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(len(response.data['password']) > 0)
+    self.assertTrue(isinstance(response.data['password'], list))
+
   def test_can_get_current_user(self):
     """Assert that authenticated users can get associated info"""
     user = create_user('test_can_get_current_user@test.com', 'validpassword')
