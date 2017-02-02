@@ -19,7 +19,7 @@ class UserMail(BaseMail):
     Sent when volunteer requests recovery token
     """
     context.update({
-      'user_email': user.email
+      'user_email': self.email_address
       })
     return self.sendEmail('recoveryToken', 'Password recovery', context)
 
