@@ -141,9 +141,12 @@ v1.0.21
 -----------
 * Upgrade dependencies
 
-v1.0.22[unreleased]
+v1.1.0
 -----------
 * Changed sendRecoveryToken email context. Before:
 {'token': self.token, 'email': self.user.email}
 Now: {'token': self}
 Upgrade path: change email references from 'token' to 'token.token' and 'email' to 'token.user.email'
+
+v1.1.1[unreleased]
+-----------
