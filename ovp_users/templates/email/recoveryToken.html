@@ -2,7 +2,7 @@
 
 {% block content %}
 Hello, you're receiving this email because you requested password recovery.<br>
-To choose a new password, accesse <a href="{{token}}">{{token}}</a>. This link is valid for 24 hours.<br>
+To choose a new password, go to <a href="{{token.token}}">{{token.token}}</a>. This link is valid for 24 hours.<br>
 <br>
 If you haven't requested password recovery, please ignore this email.
 {% endblock %}

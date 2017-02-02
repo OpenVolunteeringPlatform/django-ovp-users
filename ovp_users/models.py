@@ -94,7 +94,7 @@ class PasswordRecoveryToken(models.Model):
   def save(self, *args, **kwargs):
     if not self.pk:
       self.token = uuid.uuid4()
-      self.user.mailing().sendRecoveryToken({'token': self.token, 'email': self.user.email})
+      self.user.mailing().sendRecoveryToken({'token': self})
 
     super(PasswordRecoveryToken, self).save(*args, **kwargs)
 

@@ -143,3 +143,7 @@ v1.0.21
 
 v1.0.22[unreleased]
 -----------
+* Changed sendRecoveryToken email context. Before:
+{'token': self.token, 'email': self.user.email}
+Now: {'token': self}
+Upgrade path: change email references from 'token' to 'token.token' and 'email' to 'token.user.email'
