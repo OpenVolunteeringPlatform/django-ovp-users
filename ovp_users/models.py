@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
     app_label = 'ovp_user'
 
 class User(AbstractBaseUser, PermissionsMixin):
-  email = models.EmailField(_('Email'), max_length=254, unique=True)
+  email = models.EmailField(_('Email'), max_length=190, unique=True)
   name = models.CharField(_('Name'), max_length=200, null=False, blank=False)
   slug = models.SlugField(_('Slug'), max_length=100, null=True, blank=True, unique=True)
   phone = models.CharField(_('Phone'), max_length=30, null=True, blank=True)
