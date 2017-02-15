@@ -12,7 +12,7 @@ from rest_framework import fields
 class UserCreateSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar']
+    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar', 'locale']
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
@@ -36,7 +36,7 @@ class UserUpdateSerializer(UserCreateSerializer):
   class Meta:
     model = models.User
     permission_classes = (permissions.IsAuthenticated,)
-    fields = ['name', 'phone', 'password', 'avatar', 'current_password']
+    fields = ['name', 'phone', 'password', 'avatar', 'current_password', 'locale']
     extra_kwargs = {'password': {'write_only': True}}
 
 
@@ -66,7 +66,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'phone', 'avatar', 'email']
+    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale']
 
 class UserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()

@@ -43,6 +43,8 @@ class User(AbstractBaseUser, PermissionsMixin):
   phone = models.CharField(_('Phone'), max_length=30, null=True, blank=True)
   avatar = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name='avatar_user', verbose_name=_('avatar'))
 
+  locale = models.CharField(_('Locale'), max_length=8, null=False, blank=True, default='en')
+
   is_staff = models.BooleanField(_('Staff'), default=False)
   is_superuser = models.BooleanField(_('Superuser'), default=False)
   is_active = models.BooleanField(_('Active'), default=True)
