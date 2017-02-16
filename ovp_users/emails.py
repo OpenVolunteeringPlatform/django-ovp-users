@@ -5,7 +5,7 @@ class UserMail(BaseMail):
   This class is responsible for firing emails for Users
   """
   def __init__(self, user, async_mail=None):
-    super(UserMail, self).__init__(user.email, async_mail)
+    super(UserMail, self).__init__(user.email, async_mail, user.locale)
 
   def sendWelcome(self, context={}):
     """

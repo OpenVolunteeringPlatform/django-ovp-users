@@ -27,6 +27,7 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer = self.get_serializer(instance, data=request.data, partial=partial, context=self.get_serializer_context())
     serializer.is_valid(raise_exception=True)
     serializer.save()
+
     return response.Response(serializer.data)
 
   def current_user_patch(self, request, *args, **kwargs):
