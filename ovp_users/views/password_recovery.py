@@ -7,9 +7,7 @@ from dateutil.relativedelta import relativedelta
 from ovp_users import serializers
 from ovp_users import models
 
-from rest_framework import decorators
 from rest_framework import response
-from rest_framework import mixins
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import filters
