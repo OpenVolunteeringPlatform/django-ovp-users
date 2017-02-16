@@ -1,0 +1,4 @@
+from ovp_users.tests.test_views.user import UserResourceViewSetTestCase
+from ovp_users.tests.test_views.auth import JWTAuthTestCase
+from ovp_users.tests.test_views.password_recovery import RecoveryTokenViewSetTestCase
+from ovp_users.tests.test_views.password_recovery import RecoverPasswordViewSetTestCase
