@@ -1,9 +1,9 @@
 from ovp_users import models
 
-from ovp_core.serializers.skill import SkillSerializer
+from ovp_core.models import Skill
+from ovp_core.serializers.skill import SkillSerializer, SkillAssociationSerializer
 
 from rest_framework import serializers
-
 
 
 class ProfileCreateSerializer(serializers.ModelSerializer):

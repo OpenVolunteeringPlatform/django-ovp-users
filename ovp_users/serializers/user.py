@@ -12,7 +12,7 @@ from rest_framework import permissions
 from rest_framework import fields
 
 class UserCreateSerializer(serializers.ModelSerializer):
-  profile = ProfileCreateSerializer()
+  profile = ProfileCreateSerializer(required=False)
 
   class Meta:
     model = models.User
@@ -80,10 +80,11 @@ class UserUpdateSerializer(UserCreateSerializer):
 
 class CurrentUserSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
+  profile = ProfileRetrieveSerializer()
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale']
+    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale', 'profile']
 
 class UserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
