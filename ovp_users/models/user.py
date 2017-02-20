@@ -1,4 +1,5 @@
 from ovp_users import emails
+from ovp_users.models.profile import get_profile_model
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
@@ -54,6 +55,9 @@ class User(AbstractBaseUser, PermissionsMixin):
   objects = UserManager()
   USERNAME_FIELD = 'email'
 
+  class Meta:
+    app_label = 'ovp_users'
+
   def __init__(self, *args, **kwargs):
     super(User, self).__init__(*args, **kwargs)
     self.__original_password = self.password
@@ -81,7 +85,10 @@ class User(AbstractBaseUser, PermissionsMixin):
   def get_short_name(self):
     return self.name
 
-  class Meta:
-    app_label = 'ovp_users'
-
-
+  @property
+  def profile(self):
+    model = get_profile_model()
+    try:
+      return get_profile_model().objects.get(user=self)
+    except model.DoesNotExist:
+      return None

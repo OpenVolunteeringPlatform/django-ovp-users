@@ -3,6 +3,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 
 from ovp_users import models
+from ovp_users.serializers.profile import ProfileCreateSerializer
+from ovp_users.serializers.profile import ProfileRetrieveSerializer
 from ovp_uploads.serializers import UploadedImageSerializer
 
 from rest_framework import serializers
@@ -10,9 +12,11 @@ from rest_framework import permissions
 from rest_framework import fields
 
 class UserCreateSerializer(serializers.ModelSerializer):
+  profile = ProfileCreateSerializer()
+
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar', 'locale']
+    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar', 'locale', 'profile']
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
@@ -29,6 +33,19 @@ class UserCreateSerializer(serializers.ModelSerializer):
       raise serializers.ValidationError(errors)
 
     return super(UserCreateSerializer, self).validate(data)
+
+  def create(self, validated_data):
+    profile_data = validated_data.pop('profile', {})
+
+    # Create user
+    user = models.User.objects.create(**validated_data)
+
+    # Profile
+    profile_data['user'] = user
+    profile_sr = ProfileCreateSerializer(data=profile_data)
+    profile = profile_sr.create(profile_data)
+
+    return user
 
 class UserUpdateSerializer(UserCreateSerializer):
   current_password = fields.CharField(write_only=True)

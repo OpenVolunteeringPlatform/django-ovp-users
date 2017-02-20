@@ -11,6 +11,18 @@ def create_user(email="validemail@gmail.com", password="validpassword"):
   client = APIClient()
   return client.post(reverse('user-list'), data, format="json")
 
+
+def create_user_with_profile(email="validemail@gmail.com", password="validpassword", profile={}):
+  data = {
+    'name': 'Valid Name',
+    'email': email,
+    'password': password,
+    'profile': profile
+  }
+
+  client = APIClient()
+  return client.post(reverse('user-list'), data, format="json")
+
 def authenticate(email='test_can_login@test.com', password='validpassword'):
   data = {
     'email': email,

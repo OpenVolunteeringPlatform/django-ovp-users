@@ -7,3 +7,6 @@ from ovp_users.serializers.user import UserApplyRetrieveSerializer
 
 from ovp_users.serializers.password_recovery import RecoveryTokenSerializer
 from ovp_users.serializers.password_recovery import RecoverPasswordSerializer
+
+from ovp_users.serializers.profile import ProfileCreateSerializer
+from ovp_users.serializers.profile import ProfileRetrieveSerializer
