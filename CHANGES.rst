@@ -151,3 +151,5 @@ Upgrade path: change email references from 'token' to 'token.token' and 'email' 
 v1.1.1[unreleased]
 -----------
 * Set max_length for User.email to 190 so Innodb stops complaining about index size with utf8mb4
+* Add user profile feature
+* Add locale to emails
