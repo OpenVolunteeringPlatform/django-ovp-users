@@ -3,13 +3,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='ovp-users',
-    version='1.1.1',
+    version='1.1.2',
     author=u'Atados',
     author_email='arroyo@atados.com.br',
     packages=find_packages(),
     include_package_data=True,
     url='https://github.com/OpenVolunteeringPlatform/ovp-users',
-    download_url = 'https://github.com/OpenVolunteeringPlatform/ovp-users/tarball/1.1.1',
+    download_url = 'https://github.com/OpenVolunteeringPlatform/ovp-users/tarball/1.1.2',
     license='AGPL',
     description='This module has core functionality for' + \
                 ' ovp users, such as authentication, user management' + \
@@ -23,7 +23,7 @@ setup(
       'python-dateutil>=2.5.3,<2.7.0',
       'codecov>=2.0.5,<2.1.0',
       'coverage>=4.2,<4.4.0',
-      'ovp-core>=1.0.1,<2.0.0',
+      'ovp-core>=1.2.4,<2.0.0',
       'ovp-uploads>=1.0.0,<2.0.0'
     ]
 )
