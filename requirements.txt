@@ -4,5 +4,5 @@ Django==1.10.5
 djangorestframework==3.5.3
 djangorestframework-jwt==1.9.0
 python-dateutil==2.6.0
-ovp-core==1.2.1
+ovp-core==1.2.4
 ovp-uploads==1.0.2
