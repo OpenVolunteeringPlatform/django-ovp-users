@@ -16,7 +16,7 @@ class ProfileCreateUpdateSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.UserProfile
-    fields = ['full_name', 'about', 'skills', 'causes']
+    fields = ['full_name', 'about', 'public', 'skills', 'causes']
 
   def create(self, validated_data):
     skills = validated_data.pop('skills', [])
@@ -64,4 +64,4 @@ class ProfileRetrieveSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.UserProfile
-    fields = ['full_name', 'about', 'skills', 'causes']
+    fields = ['full_name', 'about', 'skills', 'public', 'causes']

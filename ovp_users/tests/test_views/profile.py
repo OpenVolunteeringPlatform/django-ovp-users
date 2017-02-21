@@ -23,6 +23,7 @@ class ProfileTestCase(TestCase):
     response = create_user_with_profile(profile=self.profile)
     self.assertTrue(response.data['profile']['full_name'] == self.profile['full_name'])
     self.assertTrue(response.data['profile']['about'] == self.profile['about'])
+    self.assertTrue(response.data['profile']['public'] == True)
     self._assert_causes_and_skills_in_response(response)
     return response
 
@@ -43,7 +44,6 @@ class ProfileTestCase(TestCase):
     user = self.test_can_create_user_with_profile()
     self.client.force_authenticate(User.objects.get(pk=user.data['id']))
     self._test_can_update()
-
 
 
   def test_can_update_inexistent_profile(self):
@@ -126,12 +126,14 @@ class ProfileTestCase(TestCase):
         'about': 'New about',
         'causes': [{'id': 3}, {'id': 4}],
         'skills': [{'id': 3}, {'id': 4}],
+        'public': False,
       }
     }
 
     response = self.client.patch(reverse('user-current-user'), data, format="json")
     self.assertTrue(response.data['profile']['full_name'] == data['profile']['full_name'])
     self.assertTrue(response.data['profile']['about'] == data['profile']['about'])
+    self.assertTrue(response.data['profile']['public'] == False)
 
     self.assertTrue(response.data['profile']['skills'][0]['id'] == 3)
     self.assertTrue(response.data['profile']['skills'][1]['id'] == 4)
