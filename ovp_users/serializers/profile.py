@@ -8,11 +8,11 @@ from ovp_core.serializers.cause import CauseSerializer, CauseAssociationSerializ
 from rest_framework import serializers
 
 
-class ProfileCreateSerializer(serializers.ModelSerializer):
+class ProfileCreateUpdateSerializer(serializers.ModelSerializer):
   # we do not allow the user to create skills, only associate with
   # existing skills, so we do it manually on .create method
-  skills = SkillAssociationSerializer(many=True)
-  causes = CauseAssociationSerializer(many=True)
+  skills = SkillAssociationSerializer(many=True, required=False)
+  causes = CauseAssociationSerializer(many=True, required=False)
 
   class Meta:
     model = models.UserProfile
@@ -36,6 +36,27 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
       profile.causes.add(c)
 
     return profile
+
+
+  def update(self, instance, validated_data):
+    skills = validated_data.pop('skills', None)
+    causes = validated_data.pop('causes', None)
+
+    # Associate skills
+    if skills:
+      instance.skills.clear()
+      for skill in skills:
+        s = Skill.objects.get(pk=skill['id'])
+        instance.skills.add(s)
+
+    # Associate causes
+    if causes:
+      instance.causes.clear()
+      for cause in causes:
+        c = Cause.objects.get(pk=cause['id'])
+        instance.causes.add(c)
+
+    return super(ProfileCreateUpdateSerializer, self).update(instance, validated_data)
 
 class ProfileRetrieveSerializer(serializers.ModelSerializer):
   skills = SkillSerializer(many=True)
