@@ -27,7 +27,6 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return response.Response(serializer.data)
-
   def current_user_patch(self, request, *args, **kwargs):
     kwargs['partial'] = True
     return self.current_user_put(request, *args, **kwargs)
@@ -71,3 +70,10 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return serializers.CurrentUserSerializer
       elif request.method in ["PUT", "PATCH"]:
         return serializers.UserUpdateSerializer
+
+
+class PublicUserResourceViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+  """
+  PublicUserResourceViewSet resource endpoint
+  """
+  pass

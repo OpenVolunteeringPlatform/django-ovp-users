@@ -10,6 +10,8 @@ from django.utils import timezone
 
 from django.utils.translation import ugettext_lazy as _
 
+import uuid
+
 class UserManager(BaseUserManager):
   def create_user(self, email, password=None, **extra_fields):
     now = timezone.now()
@@ -36,6 +38,7 @@ class UserManager(BaseUserManager):
     app_label = 'ovp_user'
 
 class User(AbstractBaseUser, PermissionsMixin):
+  uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
   email = models.EmailField(_('Email'), max_length=190, unique=True)
   name = models.CharField(_('Name'), max_length=200, null=False, blank=False)
   slug = models.SlugField(_('Slug'), max_length=100, null=True, blank=True, unique=True)
