@@ -1,6 +1,5 @@
-import uuid
-
 from ovp_users import emails
+from ovp_users.models.profile import get_profile_model
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
@@ -10,6 +9,8 @@ from django.db import models
 from django.utils import timezone
 
 from django.utils.translation import ugettext_lazy as _
+
+import uuid
 
 class UserManager(BaseUserManager):
   def create_user(self, email, password=None, **extra_fields):
@@ -37,6 +38,7 @@ class UserManager(BaseUserManager):
     app_label = 'ovp_user'
 
 class User(AbstractBaseUser, PermissionsMixin):
+  uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
   email = models.EmailField(_('Email'), max_length=190, unique=True)
   name = models.CharField(_('Name'), max_length=200, null=False, blank=False)
   slug = models.SlugField(_('Slug'), max_length=100, null=True, blank=True, unique=True)
@@ -55,6 +57,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   objects = UserManager()
   USERNAME_FIELD = 'email'
+
+  class Meta:
+    app_label = 'ovp_users'
 
   def __init__(self, *args, **kwargs):
     super(User, self).__init__(*args, **kwargs)
@@ -83,22 +88,10 @@ class User(AbstractBaseUser, PermissionsMixin):
   def get_short_name(self):
     return self.name
 
-  class Meta:
-    app_label = 'ovp_users'
-
-
-class PasswordRecoveryToken(models.Model):
-  user = models.ForeignKey('User', blank=True, null=True)
-  token = models.CharField(_('Token'), max_length=128, null=False, blank=False)
-  created_date = models.DateTimeField(_('Created date'), auto_now_add=True, blank=True, null=True)
-  used_date = models.DateTimeField(_('Used date'), default=None, blank=True, null=True)
-
-  def save(self, *args, **kwargs):
-    if not self.pk:
-      self.token = uuid.uuid4()
-      self.user.mailing().sendRecoveryToken({'token': self})
-
-    super(PasswordRecoveryToken, self).save(*args, **kwargs)
-
-  class Meta:
-    app_label = 'ovp_users'
+  @property
+  def profile(self):
+    model = get_profile_model()
+    try:
+      return get_profile_model().objects.get(user=self)
+    except model.DoesNotExist:
+      return None

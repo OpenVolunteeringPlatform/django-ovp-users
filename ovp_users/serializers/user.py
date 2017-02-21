@@ -3,6 +3,9 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 
 from ovp_users import models
+from ovp_users.models.profile import get_profile_model
+from ovp_users.serializers.profile import ProfileCreateUpdateSerializer
+from ovp_users.serializers.profile import ProfileRetrieveSerializer
 from ovp_uploads.serializers import UploadedImageSerializer
 
 from rest_framework import serializers
@@ -10,9 +13,11 @@ from rest_framework import permissions
 from rest_framework import fields
 
 class UserCreateSerializer(serializers.ModelSerializer):
+  profile = ProfileCreateUpdateSerializer(required=False)
+
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar', 'locale']
+    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar', 'locale', 'profile']
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
@@ -30,13 +35,27 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     return super(UserCreateSerializer, self).validate(data)
 
+  def create(self, validated_data):
+    profile_data = validated_data.pop('profile', {})
+
+    # Create user
+    user = models.User.objects.create(**validated_data)
+
+    # Profile
+    profile_data['user'] = user
+    profile_sr = ProfileCreateUpdateSerializer(data=profile_data)
+    profile = profile_sr.create(profile_data)
+
+    return user
+
 class UserUpdateSerializer(UserCreateSerializer):
   current_password = fields.CharField(write_only=True)
+  profile = ProfileCreateUpdateSerializer(required=False)
 
   class Meta:
     model = models.User
     permission_classes = (permissions.IsAuthenticated,)
-    fields = ['name', 'phone', 'password', 'avatar', 'current_password', 'locale']
+    fields = ['name', 'phone', 'password', 'avatar', 'current_password', 'locale', 'profile']
     extra_kwargs = {'password': {'write_only': True}}
 
 
@@ -60,13 +79,30 @@ class UserUpdateSerializer(UserCreateSerializer):
 
     return super(UserCreateSerializer, self).validate(data)
 
+  def update(self, instance, data):
+    profile_data = data.pop('profile', None)
+    if profile_data:
+
+      if instance.profile:
+        profile = instance.profile
+      else:
+        profile = get_profile_model()(user=instance)
+        profile.save()
+
+      profile_sr = ProfileCreateUpdateSerializer(profile, data=profile_data)
+      profile_sr.is_valid(raise_exception=True)
+      profile = profile_sr.update(profile, profile_sr.validated_data)
+
+    return super(UserUpdateSerializer, self).update(instance, data)
+
 
 class CurrentUserSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
+  profile = ProfileRetrieveSerializer()
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale']
+    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale', 'profile']
 
 class UserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
@@ -88,17 +124,3 @@ class UserApplyRetrieveSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
     fields = ['id', 'name', 'avatar', 'phone', 'email']
-
-class RecoveryTokenSerializer(serializers.Serializer):
-  email = serializers.CharField(required=True)
-
-  class Meta:
-    fields = ['email']
-
-class RecoverPasswordSerializer(serializers.Serializer):
-  email = serializers.CharField(required=True)
-  token = serializers.CharField(required=True)
-  new_password = serializers.CharField(required=True)
-
-  class Meta:
-    fields = ['email', 'token', 'new_password']

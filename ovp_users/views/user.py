@@ -6,7 +6,6 @@ from rest_framework import mixins
 from rest_framework import response
 from rest_framework import viewsets
 from rest_framework import permissions
-from rest_framework import pagination
 
 class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
   """
@@ -29,7 +28,6 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer.save()
 
     return response.Response(serializer.data)
-
   def current_user_patch(self, request, *args, **kwargs):
     kwargs['partial'] = True
     return self.current_user_put(request, *args, **kwargs)
@@ -73,3 +71,10 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return serializers.CurrentUserSerializer
       elif request.method in ["PUT", "PATCH"]:
         return serializers.UserUpdateSerializer
+
+
+class PublicUserResourceViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+  """
+  PublicUserResourceViewSet resource endpoint
+  """
+  pass

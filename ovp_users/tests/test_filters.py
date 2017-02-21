@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from ovp_users.recover_password import RecoveryTokenFilter
-from ovp_users.recover_password import RecoverPasswordFilter
+from ovp_users.views.password_recovery import RecoveryTokenFilter
+from ovp_users.views.password_recovery import RecoverPasswordFilter
 
 def test_filter(c):
   obj = c()

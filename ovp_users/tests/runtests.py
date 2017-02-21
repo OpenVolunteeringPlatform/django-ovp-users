@@ -70,7 +70,7 @@ settings.configure(
     ALLOWED_HOSTS=[],
     INSTALLED_APPS=ALWAYS_INSTALLED_APPS + CUSTOM_INSTALLED_APPS,
     MIDDLEWARE_CLASSES=ALWAYS_MIDDLEWARE_CLASSES,
-    ROOT_URLCONF='ovp_users.tests.urls',
+    ROOT_URLCONF='ovp_users.urls',
     DATABASES={
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
