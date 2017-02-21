@@ -65,3 +65,11 @@ class ProfileRetrieveSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.UserProfile
     fields = ['full_name', 'about', 'skills', 'public', 'causes']
+
+class ProfileSearchSerializer(serializers.ModelSerializer):
+  skills = SkillSerializer(many=True)
+  causes = CauseSerializer(many=True)
+
+  class Meta:
+    model = models.UserProfile
+    fields = ['full_name', 'skills', 'causes']

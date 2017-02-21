@@ -6,6 +6,7 @@ from ovp_users import models
 from ovp_users.models.profile import get_profile_model
 from ovp_users.serializers.profile import ProfileCreateUpdateSerializer
 from ovp_users.serializers.profile import ProfileRetrieveSerializer
+from ovp_users.serializers.profile import ProfileSearchSerializer
 from ovp_uploads.serializers import UploadedImageSerializer
 
 from rest_framework import serializers
@@ -124,3 +125,14 @@ class UserApplyRetrieveSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
     fields = ['id', 'name', 'avatar', 'phone', 'email']
+
+class UserSearchSerializer(serializers.ModelSerializer):
+  avatar = UploadedImageSerializer()
+  profile = ProfileSearchSerializer()
+
+  class Meta:
+    model = models.User
+    fields = ['id', 'name', 'avatar', 'profile']
+
+def get_user_search_serializer():
+  return UserSearchSerializer

@@ -28,6 +28,7 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer.save()
 
     return response.Response(serializer.data)
+
   def current_user_patch(self, request, *args, **kwargs):
     kwargs['partial'] = True
     return self.current_user_put(request, *args, **kwargs)
