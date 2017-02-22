@@ -161,3 +161,4 @@ v1.1.2
 v1.1.3[unreleased]
 -----------
 * Fix User.uuid migration
+* Update UserProfile.user related_name to 'profile'
