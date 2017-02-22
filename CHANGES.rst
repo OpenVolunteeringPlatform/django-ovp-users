@@ -158,7 +158,10 @@ v1.1.2
 -----------
 * Fix requirements
 
-v1.1.3[unreleased]
+v1.1.3
 -----------
 * Fix User.uuid migration
 * Update UserProfile.user related_name to 'profile'
+
+v1.1.4[unreleased]
+-----------
