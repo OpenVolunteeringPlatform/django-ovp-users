@@ -85,8 +85,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     super(User, self).save(*args, **kwargs)
 
-  def get_short_name(self):
+  def get_full_name(self):
     return self.name
+
+  def get_short_name(self):
+    return self.name[:self.name.index(' ')]
 
   @property
   def profile(self):
