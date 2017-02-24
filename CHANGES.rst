@@ -165,3 +165,4 @@ v1.1.3
 
 v1.1.4[unreleased]
 -----------
+* Add dynamic profile models

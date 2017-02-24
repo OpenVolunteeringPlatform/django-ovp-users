@@ -1,4 +1,5 @@
-from ovp_users import models
+from ovp_users.models.profile import get_profile_model
+from ovp_users.helpers import get_settings, import_from_string
 
 from ovp_core.models import Skill
 from ovp_core.models import Cause
@@ -15,7 +16,7 @@ class ProfileCreateUpdateSerializer(serializers.ModelSerializer):
   causes = CauseAssociationSerializer(many=True, required=False)
 
   class Meta:
-    model = models.UserProfile
+    model = get_profile_model()
     fields = ['full_name', 'about', 'public', 'skills', 'causes']
 
   def create(self, validated_data):
@@ -23,7 +24,7 @@ class ProfileCreateUpdateSerializer(serializers.ModelSerializer):
     causes = validated_data.pop('causes', [])
 
     # Create profile
-    profile = models.UserProfile.objects.create(**validated_data)
+    profile = get_profile_model().objects.create(**validated_data)
 
     # Associate skills
     for skill in skills:
@@ -63,7 +64,7 @@ class ProfileRetrieveSerializer(serializers.ModelSerializer):
   causes = CauseSerializer(many=True)
 
   class Meta:
-    model = models.UserProfile
+    model = get_profile_model()
     fields = ['full_name', 'about', 'skills', 'public', 'causes']
 
 class ProfileSearchSerializer(serializers.ModelSerializer):
@@ -71,5 +72,13 @@ class ProfileSearchSerializer(serializers.ModelSerializer):
   causes = CauseSerializer(many=True)
 
   class Meta:
-    model = models.UserProfile
+    model = get_profile_model()
     fields = ['full_name', 'skills', 'causes']
+
+
+def get_profile_serializers():
+  s = get_settings()
+  serializers = s.get('PROFILE_SERIALIZER_TUPLE', None)
+  if isinstance(serializers, tuple):
+    return [import_from_string(s) for s in serializers]
+  return (ProfileCreateUpdateSerializer, ProfileRetrieveSerializer, ProfileSearchSerializer)

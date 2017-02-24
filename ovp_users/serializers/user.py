@@ -3,9 +3,9 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 
 from ovp_users import models
+from ovp_users.helpers import get_settings, import_from_string
 from ovp_users.models.profile import get_profile_model
-from ovp_users.serializers.profile import ProfileCreateUpdateSerializer
-from ovp_users.serializers.profile import ProfileRetrieveSerializer
+from ovp_users.serializers.profile import get_profile_serializers
 from ovp_users.serializers.profile import ProfileSearchSerializer
 from ovp_uploads.serializers import UploadedImageSerializer
 
@@ -14,7 +14,7 @@ from rest_framework import permissions
 from rest_framework import fields
 
 class UserCreateSerializer(serializers.ModelSerializer):
-  profile = ProfileCreateUpdateSerializer(required=False)
+  profile = get_profile_serializers()[0](required=False)
 
   class Meta:
     model = models.User
@@ -44,14 +44,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     # Profile
     profile_data['user'] = user
-    profile_sr = ProfileCreateUpdateSerializer(data=profile_data)
+    profile_sr = get_profile_serializers()[0](data=profile_data)
     profile = profile_sr.create(profile_data)
 
     return user
 
 class UserUpdateSerializer(UserCreateSerializer):
   current_password = fields.CharField(write_only=True)
-  profile = ProfileCreateUpdateSerializer(required=False)
+  profile = get_profile_serializers()[0](required=False)
 
   class Meta:
     model = models.User
@@ -81,16 +81,26 @@ class UserUpdateSerializer(UserCreateSerializer):
     return super(UserCreateSerializer, self).validate(data)
 
   def update(self, instance, data):
+    ProfileModel = get_profile_model()
     profile_data = data.pop('profile', None)
-    if profile_data:
 
-      if instance.profile:
+    if profile_data:
+      has_profile=False
+      try:
+        if instance.profile:
+          has_profile=True
+        else:
+          has_profile=False
+      except models.UserProfile.DoesNotExist:
+        has_profile=False
+
+      if has_profile:
         profile = instance.profile
       else:
-        profile = get_profile_model()(user=instance)
+        profile = ProfileModel(user=instance)
         profile.save()
 
-      profile_sr = ProfileCreateUpdateSerializer(profile, data=profile_data)
+      profile_sr = get_profile_serializers()[0](profile, data=profile_data)
       profile_sr.is_valid(raise_exception=True)
       profile = profile_sr.update(profile, profile_sr.validated_data)
 
@@ -99,7 +109,7 @@ class UserUpdateSerializer(UserCreateSerializer):
 
 class CurrentUserSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
-  profile = ProfileRetrieveSerializer()
+  profile = get_profile_serializers()[1]()
 
   class Meta:
     model = models.User
@@ -128,11 +138,15 @@ class UserApplyRetrieveSerializer(serializers.ModelSerializer):
 
 class UserSearchSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
-  profile = ProfileSearchSerializer()
+  profile = get_profile_serializers()[2]()
 
   class Meta:
     model = models.User
     fields = ['id', 'name', 'avatar', 'profile']
 
 def get_user_search_serializer():
+  s = get_settings()
+  class_path = s.get('USER_SEARCH_SERIALIZER', None)
+  if class_path:
+    return import_from_string(class_path)
   return UserSearchSerializer
