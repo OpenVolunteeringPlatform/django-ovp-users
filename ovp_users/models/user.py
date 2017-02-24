@@ -89,7 +89,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     return self.name
 
   def get_short_name(self):
-    return self.name[:self.name.index(' ')]
+    return self.name
 
   @property
   def profile(self):
