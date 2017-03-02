@@ -20,3 +20,9 @@ class UserMail(BaseMail):
     """
     return self.sendEmail('recoveryToken', 'Password recovery', context)
 
+
+  def sendMessageToAnotherVolunteer(self, context):
+    """
+    Sent when volunteer make contact with another volunteer
+    """
+    return self.sendEmail('messageToVolunteer', 'Volunteer Message', context)
