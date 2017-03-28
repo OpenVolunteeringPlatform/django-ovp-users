@@ -7,10 +7,14 @@ from django.contrib.auth.models import PermissionsMixin
 
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 
 from django.utils.translation import ugettext_lazy as _
 
 import uuid
+
+from random import randint
+
 
 class UserManager(BaseUserManager):
   def create_user(self, email, password=None, **extra_fields):
@@ -72,6 +76,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     hash_password = False
 
     if not self.pk:
+      rand_prefix = randint(100, 999)
+      try:
+        self.slug = slugify('{}-{}'.format(self.profile.full_name), str(rand_prefix))
+      except AttributeError:
+        self.slug = slugify('{}-{}-{}'.format(self.name, self.email.split('@')[0]), str(rand_prefix))
+
       hash_password = True
       self.mailing().sendWelcome()
     else:

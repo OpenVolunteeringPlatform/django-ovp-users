@@ -142,7 +142,7 @@ class UserSearchSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'avatar', 'profile']
+    fields = ['id', 'slug', 'name', 'avatar', 'profile']
 
 def get_user_search_serializer():
   s = get_settings()
