@@ -4,6 +4,7 @@ from ovp_users.models.profile import get_profile_model
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from ovp_projects.models import Apply as apply_models
 
 from django.db import models
 from django.utils import timezone
@@ -61,6 +62,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   objects = UserManager()
   USERNAME_FIELD = 'email'
+
+  @property
+  def applies(self):
+    try:
+      return apply_models.objects.filter(user=self)
+    except:
+      return None
 
   class Meta:
     app_label = 'ovp_users'

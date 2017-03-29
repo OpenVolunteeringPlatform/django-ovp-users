@@ -1,5 +1,7 @@
 from ovp_users import serializers
 from ovp_users import models
+from ovp_projects.models import Apply as apply_models
+from ovp_projects.serializers import apply_user as apply_serializers
 
 from rest_framework import decorators
 from rest_framework import mixins
@@ -7,12 +9,14 @@ from rest_framework import response
 from rest_framework import viewsets
 from rest_framework import permissions
 
+import json
+
 class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
   """
   UserResourceViewSet resource endpoint
   """
   queryset = models.User.objects.all()
-  lookup_field = 'email'
+  # lookup_field = 'email'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
   def current_user_get(self, request, *args, **kwargs):
@@ -64,6 +68,10 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
   def get_serializer_class(self):
     request = self.get_serializer_context()['request']
+
+    if self.action == 'retrieve':
+      return serializers.UserPublicRetrieveSerializer
+
     if self.action == 'create':
       return serializers.UserCreateSerializer
 
@@ -73,9 +81,7 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
       elif request.method in ["PUT", "PATCH"]:
         return serializers.UserUpdateSerializer
 
-
-class PublicUserResourceViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-  """
-  PublicUserResourceViewSet resource endpoint
-  """
-  pass
+  def retrieve(self, request, pk=None):
+    queryset = self.get_queryset().get(slug=pk)
+    serializer = self.get_serializer(queryset, context=self.get_serializer_context())
+    return response.Response(serializer.data)

@@ -8,6 +8,9 @@ from ovp_users.models.profile import get_profile_model
 from ovp_users.serializers.profile import get_profile_serializers
 from ovp_users.serializers.profile import ProfileSearchSerializer
 from ovp_uploads.serializers import UploadedImageSerializer
+from ovp_projects.serializers.apply_user import ApplyUserRetrieveSerializer
+
+from ovp_projects import models as model_project
 
 from rest_framework import serializers
 from rest_framework import permissions
@@ -113,21 +116,24 @@ class CurrentUserSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale', 'profile']
+    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale', 'profile', 'slug']
 
 class UserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
+  profile = get_profile_serializers()[1]()
+  applies = ApplyUserRetrieveSerializer(many=True, source="apply_set")
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'avatar']
+    fields = ['id', 'name', 'avatar', 'profile', 'slug', 'applies']
+    # 'applies'
 
 class UserProjectRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'avatar', 'email', 'phone']
+    fields = ['id', 'name', 'avatar', 'email', 'phone', 'slug']
 
 class UserApplyRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()

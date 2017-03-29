@@ -82,3 +82,4 @@ def get_profile_serializers():
   if isinstance(serializers, tuple):
     return [import_from_string(s) for s in serializers]
   return (ProfileCreateUpdateSerializer, ProfileRetrieveSerializer, ProfileSearchSerializer)
+
