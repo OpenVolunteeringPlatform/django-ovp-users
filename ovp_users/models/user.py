@@ -13,6 +13,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 import uuid
+from shortuuid.main import encode as encode_uuid
 
 from random import randint
 
@@ -84,12 +85,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     hash_password = False
 
     if not self.pk:
-      rand_prefix = randint(100, 999)
-      try:
-        self.slug = slugify('{}-{}'.format(self.profile.full_name), str(rand_prefix))
-      except AttributeError:
-        self.slug = slugify('{}-{}'.format(self.name, str(rand_prefix)))
-
+      self.slug = encode_uuid(self.uuid)
       hash_password = True
       self.mailing().sendWelcome()
     else:

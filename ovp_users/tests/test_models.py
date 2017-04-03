@@ -2,6 +2,8 @@ from django.test import TestCase
 
 from ovp_users.models import User
 
+from shortuuid.main import encode as encode_uuid
+
 class TestUserManager(TestCase):
   def test_create_user_without_email(self):
     """ Assert that UserManager doesn't create users without email"""
@@ -39,3 +41,9 @@ class TestUserModel(TestCase):
     self.assertTrue(user.check_password('anotherpassword'))
     user.save()
     self.assertTrue(user.check_password('anotherpassword'))
+
+  def test_slug(self):
+    """ Assert that during user creation slug matches the uuid """
+    user = User.objects.create_user('user@email.com', 'validpassword')
+    user.save()
+    self.assertTrue(encode_uuid(user.uuid) == user.slug)

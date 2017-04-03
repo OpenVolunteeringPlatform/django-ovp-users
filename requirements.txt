@@ -6,3 +6,4 @@ djangorestframework-jwt==1.9.0
 python-dateutil==2.6.0
 ovp-core==1.2.4
 ovp-uploads==1.0.2
+shortuuid==0.5.0
