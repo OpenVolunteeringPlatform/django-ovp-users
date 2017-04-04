@@ -85,3 +85,10 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = self.get_queryset().get(slug=pk)
     serializer = self.get_serializer(queryset, context=self.get_serializer_context())
     return response.Response(serializer.data)
+
+  @decorators.detail_route(methods=['GET'])
+  def applies(self, request, pk=None):
+    organization = self.get_queryset().get(id=pk)
+    applies = Applies.objects.filter(user=user).values()
+
+    return response.Response(applies)
