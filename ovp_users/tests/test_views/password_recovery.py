@@ -31,7 +31,6 @@ class RecoveryTokenViewSetTestCase(TestCase):
     """Assert the server hides the fact user don't exist when requesting token"""
     response = create_token('invaliduser@invalid.com')
     self.assertTrue(response.data['success'] == True)
-    self.assertTrue(response.data['success'] == True)
     self.assertTrue(len(mail.outbox) == 0)
 
 class RecoverPasswordViewSetTestCase(TestCase):
@@ -39,10 +38,12 @@ class RecoverPasswordViewSetTestCase(TestCase):
     """Assert the user can recover his password with a valid token"""
     # Request token
     user = create_user('test_can_recover@password.com')
+
+    mail.outbox = [] # Clear outbox
     response = create_token('test_can_recover@password.com')
 
     # Get Token from mailbox
-    email_content = mail.outbox[1].alternatives[0][0]
+    email_content = mail.outbox[0].alternatives[0][0]
     token = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', email_content).group(0)
 
     # Recover Password
@@ -64,10 +65,12 @@ class RecoverPasswordViewSetTestCase(TestCase):
     """Assert that it's impossible to update password through recovery to an empty password"""
     # Request token
     user = create_user('test_cant_recover_empty@password.com')
+
+    mail.outbox = [] # Clear outbox
     response = create_token('test_cant_recover_empty@password.com')
 
     # Get Token from mailbox
-    email_content = mail.outbox[1].alternatives[0][0]
+    email_content = mail.outbox[0].alternatives[0][0]
     token = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', email_content).group(0)
 
     # Recover Password
@@ -104,10 +107,12 @@ class RecoverPasswordViewSetTestCase(TestCase):
     """Assert that it's impossible to update password through recovery with an invalid user token"""
     # Request token
     user = create_user('test_cant_recover_invalid_pw@password.com')
+
+    mail.outbox = [] # Clear outbox
     response = create_token('test_cant_recover_invalid_pw@password.com')
 
     # Get Token from mailbox
-    email_content = mail.outbox[1].alternatives[0][0]
+    email_content = mail.outbox[0].alternatives[0][0]
     token = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', email_content).group(0)
 
     # Recover Password
