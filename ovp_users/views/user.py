@@ -16,7 +16,7 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
   UserResourceViewSet resource endpoint
   """
   queryset = models.User.objects.all()
-  # lookup_field = 'email'
+  lookup_field = 'slug'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
   def current_user_get(self, request, *args, **kwargs):
@@ -80,6 +80,15 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return serializers.CurrentUserSerializer
       elif request.method in ["PUT", "PATCH"]:
         return serializers.UserUpdateSerializer
+
+
+class PublicUserResourceViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+  """
+  PublicUserResourceViewSet resource endpoint
+  """
+  queryset = models.User.objects.all()
+  lookup_field = 'slug'
+  lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
   def retrieve(self, request, pk=None):
     queryset = self.get_queryset().get(slug=pk)
