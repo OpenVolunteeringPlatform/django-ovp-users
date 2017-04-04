@@ -88,7 +88,7 @@ class User(AbstractBaseUser, PermissionsMixin):
       try:
         self.slug = slugify('{}-{}'.format(self.profile.full_name), str(rand_prefix))
       except AttributeError:
-        self.slug = slugify('{}-{}-{}'.format(self.name, self.email.split('@')[0]), str(rand_prefix))
+        self.slug = slugify('{}-{}'.format(self.name, str(rand_prefix)))
 
       hash_password = True
       self.mailing().sendWelcome()
