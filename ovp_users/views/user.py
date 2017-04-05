@@ -89,15 +89,3 @@ class PublicUserResourceViewset(mixins.RetrieveModelMixin, viewsets.GenericViewS
   queryset = models.User.objects.all()
   lookup_field = 'slug'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
-
-  def retrieve(self, request, pk=None):
-    queryset = self.get_queryset().get(slug=pk)
-    serializer = self.get_serializer(queryset, context=self.get_serializer_context())
-    return response.Response(serializer.data)
-
-  @decorators.detail_route(methods=['GET'])
-  def applies(self, request, pk=None):
-    organization = self.get_queryset().get(id=pk)
-    applies = Applies.objects.filter(user=user).values()
-
-    return response.Response(applies)
