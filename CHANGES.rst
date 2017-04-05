@@ -163,9 +163,12 @@ v1.1.3
 * Fix User.uuid migration
 * Update UserProfile.user related_name to 'profile'
 
-v1.1.4[unreleased]
+v1.1.4
 -----------
 * Add dynamic profile models
+
+v1.1.5
+-----------
 * Add slug field. Default is shortuuid
 * Add User.public field.
 * Remove UserProflie.public field.
