@@ -1,12 +1,13 @@
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 
-def create_user(email="validemail@gmail.com", password="validpassword"):
+def create_user(email="validemail@gmail.com", password="validpassword", extra_data={}):
   data = {
     'name': 'Valid Name',
     'email': email,
     'password': password
   }
+  data = dict(data, **extra_data)
 
   client = APIClient()
   return client.post(reverse('user-list'), data, format="json")

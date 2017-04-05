@@ -93,6 +93,23 @@ class UserResourceViewSetTestCase(TestCase):
     self.assertTrue(response.data.get('email', None))
     self.assertTrue(response.data.get('name', None))
 
+  def test_can_create_hidden_user(self):
+    """Assert that it's possible to create a hidden user"""
+    response = create_user(extra_data={'public': False})
+    self.assertTrue(response.data['id'] > 0)
+    self.assertTrue(response.data['public'] == False)
+
+  def test_can_set_user_to_hidden(self):
+    """Assert that it's possible to set public user to hidden user"""
+    response = create_user()
+    self.assertTrue(response.data['public'] == True)
+
+    user = models.User.objects.get(pk=response.data['id'])
+    client = APIClient()
+    client.force_authenticate(user=user)
+    response = client.patch(reverse('user-current-user'), {'public': False}, format="json")
+    self.assertTrue(response.data['public'] == False)
+
   def test_ask_for_credentials(self):
     """Assert that unauthenticated users can't get current user info"""
     client = APIClient()
