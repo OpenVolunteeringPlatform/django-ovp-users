@@ -125,7 +125,7 @@ class ShortUserPublicRetrieveSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['uuid', 'name', 'avatar', 'slug', 'applies']
+    fields = ['uuid', 'name', 'avatar', 'slug']
 
 class LongUserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
