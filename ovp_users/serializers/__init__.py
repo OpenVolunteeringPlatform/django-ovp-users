@@ -1,7 +1,8 @@
 from ovp_users.serializers.user import UserCreateSerializer
 from ovp_users.serializers.user import UserUpdateSerializer
 from ovp_users.serializers.user import CurrentUserSerializer
-from ovp_users.serializers.user import UserPublicRetrieveSerializer
+from ovp_users.serializers.user import ShortUserPublicRetrieveSerializer
+from ovp_users.serializers.user import LongUserPublicRetrieveSerializer
 from ovp_users.serializers.user import UserProjectRetrieveSerializer
 from ovp_users.serializers.user import UserApplyRetrieveSerializer
 
