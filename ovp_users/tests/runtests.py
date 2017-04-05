@@ -17,6 +17,7 @@ CUSTOM_INSTALLED_APPS = (
     'ovp_users',
     'ovp_uploads',
     'ovp_projects',
+    'ovp_organizations',
     'django.contrib.admin',
 )
 
