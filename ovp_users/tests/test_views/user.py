@@ -12,12 +12,12 @@ class UserResourceViewSetTestCase(TestCase):
   def test_can_create_user(self):
     """Assert that it's possible to create an user"""
     response = create_user()
-    self.assertTrue(response.data['id'] > 0)
+    self.assertTrue(response.data['uuid'])
 
   def test_cant_create_user_duplicated_email(self):
     """Assert that it's not possible to create an user with a repeated email"""
     response = create_user()
-    self.assertTrue(response.data['id'] > 0)
+    self.assertTrue(response.data['uuid'])
 
   def test_cant_create_user_invalid_password(self):
     """Assert that it's not possible to create an user with a repeated email"""
@@ -33,7 +33,7 @@ class UserResourceViewSetTestCase(TestCase):
   def test_cant_patch_password_without_current_password(self):
     """Assert that it's not possible to update user password without the current password"""
     response = create_user('test_can_patch_password@test.com', 'abcabcabc')
-    u = models.User.objects.get(pk=response.data['id'])
+    u = models.User.objects.get(uuid=response.data['uuid'])
 
     data = {'password': 'pwpw12341234'}
     client = APIClient()
@@ -45,7 +45,7 @@ class UserResourceViewSetTestCase(TestCase):
   def test_can_patch_password(self):
     """Assert that it's possible to update user password"""
     response = create_user('test_can_patch_password@test.com', 'abcabcabc')
-    u = models.User.objects.get(pk=response.data['id'])
+    u = models.User.objects.get(uuid=response.data['uuid'])
 
     data = {'password': 'pwpw12341234', 'current_password': 'abcabcabc'}
     client = APIClient()
@@ -59,7 +59,7 @@ class UserResourceViewSetTestCase(TestCase):
   def test_can_put_password(self):
     """Assert that it's possible to update user password"""
     response = create_user('test_can_put_password@test.com', 'abcabcabc')
-    u = models.User.objects.get(pk=response.data['id'])
+    u = models.User.objects.get(uuid=response.data['uuid'])
 
     data = {'name': 'abc', 'password': 'pwpw12341234', 'current_password': 'abcabcabc'}
     client = APIClient()
@@ -73,7 +73,7 @@ class UserResourceViewSetTestCase(TestCase):
   def test_cant_update_invalid_password(self):
     """Assert that it's impossible to update user password to a invalid password"""
     response = create_user('test_can_put_password@test.com', 'abcabcabc')
-    u = models.User.objects.get(pk=response.data['id'])
+    u = models.User.objects.get(uuid=response.data['uuid'])
 
     data = {'name': 'abc', 'password': 'abc', 'current_password': 'abcabcabc'}
     client = APIClient()
@@ -96,7 +96,6 @@ class UserResourceViewSetTestCase(TestCase):
   def test_can_create_hidden_user(self):
     """Assert that it's possible to create a hidden user"""
     response = create_user(extra_data={'public': False})
-    self.assertTrue(response.data['id'] > 0)
     self.assertTrue(response.data['public'] == False)
 
   def test_can_set_user_to_hidden(self):
@@ -104,7 +103,7 @@ class UserResourceViewSetTestCase(TestCase):
     response = create_user()
     self.assertTrue(response.data['public'] == True)
 
-    user = models.User.objects.get(pk=response.data['id'])
+    user = models.User.objects.get(uuid=response.data['uuid'])
     client = APIClient()
     client.force_authenticate(user=user)
     response = client.patch(reverse('user-current-user'), {'public': False}, format="json")
