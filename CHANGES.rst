@@ -168,3 +168,4 @@ v1.1.4[unreleased]
 * Add dynamic profile models
 * Add slug field. Default is shortuuid
 * Add User.public field.
+* Remove UserProflie.public field.

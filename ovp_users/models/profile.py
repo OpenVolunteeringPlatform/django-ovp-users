@@ -9,7 +9,6 @@ class UserProfile(models.Model):
   skills = models.ManyToManyField('ovp_core.Skill')
   causes = models.ManyToManyField('ovp_core.Cause')
   about = models.TextField(_('About me'), null=True, blank=True)
-  public = models.BooleanField(_('Public Profile'), default=True)
 
 def get_profile_model():
   s = get_settings()
