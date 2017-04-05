@@ -178,6 +178,9 @@ v1.1.5
 * Replace id with uuid on UserCreateSerializer, UserProjectRetrieveSerializer, UserApplyRetrieveSerializer, ShortUserPublicRetrieveSerializer
 * Add PublicUserResourceViewSet
 
-v1.1.6[unreleased]
+v1.1.6
 -----------
 * Remove 'applies' from ShortUserPublicRetrieveSerializer"
+
+v1.1.7[unreleased]
+-----------
