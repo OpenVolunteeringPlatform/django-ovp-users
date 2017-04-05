@@ -169,3 +169,5 @@ v1.1.4[unreleased]
 * Add slug field. Default is shortuuid
 * Add User.public field.
 * Remove UserProflie.public field.
+* Remove id from UserSearchSerializer
+* Replace id with uuid on UserCreateSerializer, UserProjectRetrieveSerializer, UserApplyRetrieveSerializer

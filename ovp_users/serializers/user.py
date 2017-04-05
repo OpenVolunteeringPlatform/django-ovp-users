@@ -18,10 +18,12 @@ from rest_framework import fields
 
 class UserCreateSerializer(serializers.ModelSerializer):
   profile = get_profile_serializers()[0](required=False)
+  slug = serializers.CharField(read_only=True)
+  uuid = serializers.CharField(read_only=True)
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'email', 'password', 'phone', 'avatar', 'locale', 'profile', 'public']
+    fields = ['uuid', 'name', 'email', 'password', 'phone', 'avatar', 'locale', 'profile', 'public', 'slug']
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
@@ -116,31 +118,37 @@ class CurrentUserSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'phone', 'avatar', 'email', 'locale', 'profile', 'slug']
+    fields = ['uuid', 'name', 'phone', 'avatar', 'email', 'locale', 'profile', 'slug']
 
-class UserPublicRetrieveSerializer(serializers.ModelSerializer):
+class ShortUserPublicRetrieveSerializer(serializers.ModelSerializer):
+  avatar = UploadedImageSerializer()
+
+  class Meta:
+    model = models.User
+    fields = ['name', 'avatar', 'slug', 'applies']
+
+class LongUserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
   profile = get_profile_serializers()[1]()
   applies = ApplyUserRetrieveSerializer(many=True, source="apply_set")
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'avatar', 'profile', 'slug', 'applies']
-    # 'applies'
+    fields = ['name', 'avatar', 'profile', 'slug', 'applies']
 
 class UserProjectRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'avatar', 'email', 'phone', 'slug']
+    fields = ['uuid', 'name', 'avatar', 'email', 'phone', 'slug']
 
 class UserApplyRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
 
   class Meta:
     model = models.User
-    fields = ['id', 'name', 'avatar', 'phone', 'email']
+    fields = ['uuid', 'name', 'avatar', 'phone', 'email']
 
 class UserSearchSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
@@ -148,7 +156,7 @@ class UserSearchSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['id', 'slug', 'name', 'avatar', 'profile']
+    fields = ['slug', 'name', 'avatar', 'profile']
 
 def get_user_search_serializer():
   s = get_settings()
