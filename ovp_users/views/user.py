@@ -1,7 +1,5 @@
 from ovp_users import serializers
 from ovp_users import models
-from ovp_projects.models import Apply as apply_models
-from ovp_projects.serializers import apply_user as apply_serializers
 
 from rest_framework import decorators
 from rest_framework import mixins
@@ -69,9 +67,6 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
   def get_serializer_class(self):
     request = self.get_serializer_context()['request']
 
-    if self.action == 'retrieve':
-      return serializers.UserPublicRetrieveSerializer
-
     if self.action == 'create':
       return serializers.UserCreateSerializer
 
@@ -82,10 +77,11 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return serializers.UserUpdateSerializer
 
 
-class PublicUserResourceViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class PublicUserResourceViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
   """
   PublicUserResourceViewSet resource endpoint
   """
-  queryset = models.User.objects.all()
+  queryset = models.User.objects.filter(public=True)
+  serializer_class = serializers.LongUserPublicRetrieveSerializer
   lookup_field = 'slug'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field

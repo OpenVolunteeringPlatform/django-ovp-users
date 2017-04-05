@@ -170,4 +170,7 @@ v1.1.4[unreleased]
 * Add User.public field.
 * Remove UserProflie.public field.
 * Remove id from UserSearchSerializer
-* Replace id with uuid on UserCreateSerializer, UserProjectRetrieveSerializer, UserApplyRetrieveSerializer
+* Rename UserPublicRetrieveSerializer to ShortUserPublicRetrieveSerializer
+* Add LongUserPublicRetrieveSerializer
+* Replace id with uuid on UserCreateSerializer, UserProjectRetrieveSerializer, UserApplyRetrieveSerializer, ShortUserPublicRetrieveSerializer
+* Add PublicUserResourceViewSet

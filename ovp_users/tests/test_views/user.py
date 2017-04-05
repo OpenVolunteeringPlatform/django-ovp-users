@@ -109,6 +109,23 @@ class UserResourceViewSetTestCase(TestCase):
     response = client.patch(reverse('user-current-user'), {'public': False}, format="json")
     self.assertTrue(response.data['public'] == False)
 
+  def test_can_retrieve_public_user(self):
+    """ Assert it's possible to retrieve a public profile """
+    response = create_user()
+
+    client = APIClient()
+    response = client.get(reverse('public-users-detail', [response.data['slug']]), format="json")
+    self.assertTrue(response.data['slug'])
+    self.assertTrue("applies" in response.data)
+
+  def test_cant_retrieve_hidden_user(self):
+    """ Assert it's not possible to retrieve a hidden profile """
+    response = create_user(extra_data={'public': False})
+
+    client = APIClient()
+    response = client.get(reverse('public-users-detail', [response.data['slug']]), format="json")
+    self.assertTrue(response.status_code == 404)
+
   def test_ask_for_credentials(self):
     """Assert that unauthenticated users can't get current user info"""
     client = APIClient()
