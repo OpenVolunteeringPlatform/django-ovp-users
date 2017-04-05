@@ -30,7 +30,7 @@ class ProfileTestCase(TestCase):
   def test_current_user_route_returns_profile(self):
     """ Assert profile data gets returned when fetching current user """
     user = create_user_with_profile(profile=self.profile)
-    self.client.force_authenticate(User.objects.get(pk=user.data['id']))
+    self.client.force_authenticate(User.objects.get(uuid=user.data['uuid']))
 
     response = self.client.get(reverse('user-current-user'), {}, format="json")
     self.assertTrue(response.data['profile']['full_name'] == self.profile['full_name'])
@@ -41,7 +41,7 @@ class ProfileTestCase(TestCase):
   def test_can_update_profile(self):
     """ Assert it's possible to update profile data """
     user = self.test_can_create_user_with_profile()
-    self.client.force_authenticate(User.objects.get(pk=user.data['id']))
+    self.client.force_authenticate(User.objects.get(uuid=user.data['uuid']))
     self._test_can_update()
 
 
@@ -75,7 +75,7 @@ class ProfileTestCase(TestCase):
   def test_skills_validation_on_update(self):
     """ Assert it's impossible to associate with invalid skills on profile update """
     user = self.test_can_create_user_with_profile()
-    self.client.force_authenticate(User.objects.get(pk=user.data['id']))
+    self.client.force_authenticate(User.objects.get(uuid=user.data['uuid']))
 
     data = {
       'profile': {
@@ -92,7 +92,7 @@ class ProfileTestCase(TestCase):
   def test_causes_validation_on_update(self):
     """ Assert it's impossible to associate with invalid causes on profile update """
     user = self.test_can_create_user_with_profile()
-    self.client.force_authenticate(User.objects.get(pk=user.data['id']))
+    self.client.force_authenticate(User.objects.get(uuid=user.data['uuid']))
 
     data = {
       'profile': {
