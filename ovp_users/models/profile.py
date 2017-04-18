@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from ovp_users.helpers import get_settings, import_from_string
 
-genre_choices = (
+gender_choices = (
   ("male", "Male"),
   ("female", "Female"),
 )
@@ -14,7 +14,7 @@ class UserProfile(models.Model):
   skills = models.ManyToManyField("ovp_core.Skill")
   causes = models.ManyToManyField("ovp_core.Cause")
   about = models.TextField(_("About me"), null=True, blank=True)
-  genre = models.CharField(_("Genre"), max_length=10, choices=genre_choices, default=None, null=True, blank=True)
+  gender = models.CharField(_("gender"), max_length=10, choices=gender_choices, default=None, null=True, blank=True)
 
 def get_profile_model():
   s = get_settings()
