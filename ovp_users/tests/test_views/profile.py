@@ -37,6 +37,7 @@ class ProfileTestCase(TestCase):
     response = self.client.get(reverse('user-current-user'), {}, format="json")
     self.assertTrue(response.data['profile']['full_name'] == self.profile['full_name'])
     self.assertTrue(response.data['profile']['about'] == self.profile['about'])
+    self.assertTrue(response.data['profile']['genre'] == 'male')
     self._assert_causes_and_skills_in_response(response)
 
 
