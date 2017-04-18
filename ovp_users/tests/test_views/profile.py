@@ -14,6 +14,7 @@ class ProfileTestCase(TestCase):
       'skills': [{'id': 1}, {'id': 2, 'name': 'test'}],
       'causes': [{'id': 1}, {'id': 2, 'name': 'test'}],
       'about': 'I\'m a test user and that\'s all you must know about me',
+      'genre': 'male'
     }
     self.client = APIClient()
 
@@ -23,6 +24,7 @@ class ProfileTestCase(TestCase):
     response = create_user_with_profile(profile=self.profile)
     self.assertTrue(response.data['profile']['full_name'] == self.profile['full_name'])
     self.assertTrue(response.data['profile']['about'] == self.profile['about'])
+    self.assertTrue(response.data['profile']['genre'] == 'male')
     self._assert_causes_and_skills_in_response(response)
     return response
 
@@ -124,12 +126,14 @@ class ProfileTestCase(TestCase):
         'about': 'New about',
         'causes': [{'id': 3}, {'id': 4}],
         'skills': [{'id': 3}, {'id': 4}],
+        'genre': 'female'
       }
     }
 
     response = self.client.patch(reverse('user-current-user'), data, format="json")
     self.assertTrue(response.data['profile']['full_name'] == data['profile']['full_name'])
     self.assertTrue(response.data['profile']['about'] == data['profile']['about'])
+    self.assertTrue(response.data['profile']['genre'] == 'female')
 
     self.assertTrue(response.data['profile']['skills'][0]['id'] == 3)
     self.assertTrue(response.data['profile']['skills'][1]['id'] == 4)

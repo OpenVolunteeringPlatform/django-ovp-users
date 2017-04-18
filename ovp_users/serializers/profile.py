@@ -1,4 +1,5 @@
 from ovp_users.models.profile import get_profile_model
+from ovp_users.models.profile import genre_choices
 from ovp_users.helpers import get_settings, import_from_string
 
 from ovp_core.models import Skill
@@ -14,10 +15,11 @@ class ProfileCreateUpdateSerializer(serializers.ModelSerializer):
   # existing skills, so we do it manually on .create method
   skills = SkillAssociationSerializer(many=True, required=False)
   causes = CauseAssociationSerializer(many=True, required=False)
+  genre = serializers.ChoiceField(choices=genre_choices)
 
   class Meta:
     model = get_profile_model()
-    fields = ['full_name', 'about', 'skills', 'causes']
+    fields = ['full_name', 'about', 'skills', 'causes', 'genre']
 
   def create(self, validated_data):
     skills = validated_data.pop('skills', [])
@@ -62,18 +64,20 @@ class ProfileCreateUpdateSerializer(serializers.ModelSerializer):
 class ProfileRetrieveSerializer(serializers.ModelSerializer):
   skills = SkillSerializer(many=True)
   causes = CauseSerializer(many=True)
+  genre = serializers.ChoiceField(choices=genre_choices)
 
   class Meta:
     model = get_profile_model()
-    fields = ['full_name', 'about', 'skills', 'causes']
+    fields = ['full_name', 'about', 'skills', 'causes', 'genre']
 
 class ProfileSearchSerializer(serializers.ModelSerializer):
   skills = SkillSerializer(many=True)
   causes = CauseSerializer(many=True)
+  genre = serializers.ChoiceField(choices=genre_choices)
 
   class Meta:
     model = get_profile_model()
-    fields = ['full_name', 'skills', 'causes']
+    fields = ['full_name', 'skills', 'causes', 'genre']
 
 
 def get_profile_serializers():
