@@ -185,3 +185,4 @@ v1.1.6
 v1.1.7[unreleased]
 -----------
 * Add gender to Profile
+* Optimize User.profile property to use cached profile object

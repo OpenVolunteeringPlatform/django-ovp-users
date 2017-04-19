@@ -101,7 +101,8 @@ class User(AbstractBaseUser, PermissionsMixin):
   @property
   def profile(self):
     model = get_profile_model()
+    related_field_name = model._meta.get_field('user').related_query_name()
     try:
-      return get_profile_model().objects.get(user=self)
+      return getattr(self, related_field_name, None)
     except model.DoesNotExist:
       return None

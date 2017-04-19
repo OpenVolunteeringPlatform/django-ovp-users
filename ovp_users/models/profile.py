@@ -14,7 +14,7 @@ class UserProfile(models.Model):
   skills = models.ManyToManyField("ovp_core.Skill")
   causes = models.ManyToManyField("ovp_core.Cause")
   about = models.TextField(_("About me"), null=True, blank=True)
-  gender = models.CharField(_("gender"), max_length=10, choices=gender_choices, default=None, null=True, blank=True)
+  gender = models.CharField(_("Gender"), max_length=10, choices=gender_choices, default=None, null=True, blank=True)
 
 def get_profile_model():
   s = get_settings()
