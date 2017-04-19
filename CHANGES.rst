@@ -182,7 +182,10 @@ v1.1.6
 -----------
 * Remove 'applies' from ShortUserPublicRetrieveSerializer"
 
-v1.1.7[unreleased]
+v1.1.7
 -----------
 * Add gender to Profile
 * Optimize User.profile property to use cached profile object
+
+v1.1.8[unreleased]
+-----------
