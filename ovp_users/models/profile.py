@@ -6,6 +6,7 @@ from ovp_users.helpers import get_settings, import_from_string
 gender_choices = (
   ("male", "Male"),
   ("female", "Female"),
+  ("unspecified", "Unspecified"),
 )
 
 class UserProfile(models.Model):
