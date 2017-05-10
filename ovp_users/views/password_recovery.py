@@ -73,18 +73,17 @@ class RecoverPasswordViewSet(viewsets.GenericViewSet):
   serializer_class = serializers.RecoverPasswordSerializer
 
   def create(self, request, *args, **kwargs):
-    email = request.data.get('email', None)
     token = request.data.get('token', None)
     new_password = request.data.get('new_password', None)
     day_ago = (timezone.now() - relativedelta(hours=24)).replace(tzinfo=timezone.utc)
 
     try:
-      rt = self.get_queryset().get(user__email=email, token=token)
+      rt = self.get_queryset().get(token=token)
     except:
       rt = None
 
     if (not rt) or rt.used_date or rt.created_date < day_ago:
-      return response.Response({'message': 'Invalid email or token.'}, status=status.HTTP_401_UNAUTHORIZED)
+      return response.Response({'message': 'Invalid token.'}, status=status.HTTP_401_UNAUTHORIZED)
     if not new_password:
       return response.Response({'message': 'Empty password not allowed.'}, status=status.HTTP_400_BAD_REQUEST)
 

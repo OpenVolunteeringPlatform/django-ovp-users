@@ -100,7 +100,7 @@ class RecoverPasswordViewSetTestCase(TestCase):
 
     client = APIClient()
     response = client.post(reverse('recover-password-list'), data, format="json")
-    self.assertTrue(response.data['message'] == 'Invalid email or token.')
+    self.assertTrue(response.data['message'] == 'Invalid token.')
     self.assertTrue(response.status_code == 401)
 
   def test_cant_recover_invalid_password(self):
