@@ -103,6 +103,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     model = get_profile_model()
     related_field_name = model._meta.get_field('user').related_query_name()
     try:
-      return getattr(self, related_field_name, None)
+      obj = getattr(self, related_field_name, None)
+      if isinstance(obj, model):
+        return obj
+      else:
+        return model.objects.get(user=self)
     except model.DoesNotExist:
       return None
