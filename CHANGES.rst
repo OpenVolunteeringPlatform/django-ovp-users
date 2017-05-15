@@ -191,3 +191,4 @@ v1.1.8[unreleased]
 -----------
 * Add unspecified gender option
 * Stop requiring email on password recovery
+* On User#profile, test if cached value is instance of the profile class
