@@ -118,7 +118,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['uuid', 'name', 'phone', 'avatar', 'email', 'locale', 'profile', 'slug']
+    fields = ['uuid', 'name', 'phone', 'avatar', 'email', 'locale', 'profile', 'slug', 'public']
 
 class ShortUserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
