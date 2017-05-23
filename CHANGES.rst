@@ -193,10 +193,10 @@ v1.1.8
 * Stop requiring email on password recovery
 * On User#profile, test if cached value is instance of the profile class
 * Add public in CurrentUserSerializer
-<<<<<<< HEAD
 * Remove User.PUT, use User.PATCH
 * Add CANT_REUSE_LAST_PASSWORDS setting
 
 v1.1.9[unreleased]
 -----------
 * Add pt_BR translations
+* Fix for case insensitive user search

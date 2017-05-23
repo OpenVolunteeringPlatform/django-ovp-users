@@ -34,7 +34,7 @@ class RecoveryTokenViewSet(viewsets.GenericViewSet):
     email = request.data.get('email', None)
 
     try:
-      user = self.get_queryset().get(email=email)
+      user = self.get_queryset().get(email__iexact=email)
     except:
       user = None
 
