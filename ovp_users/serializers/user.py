@@ -7,6 +7,7 @@ from ovp_users.helpers import get_settings, import_from_string
 from ovp_users.models.profile import get_profile_model
 from ovp_users.serializers.profile import get_profile_serializers
 from ovp_users.serializers.profile import ProfileSearchSerializer
+from ovp_users.validators import PasswordReuse
 from ovp_uploads.serializers import UploadedImageSerializer
 from ovp_projects.serializers.apply_user import ApplyUserRetrieveSerializer
 
@@ -55,6 +56,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     return user
 
 class UserUpdateSerializer(UserCreateSerializer):
+  password = fields.CharField(write_only=True, validators=[PasswordReuse()])
   current_password = fields.CharField(write_only=True)
   profile = get_profile_serializers()[0](required=False)
 

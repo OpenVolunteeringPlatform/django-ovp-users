@@ -194,3 +194,4 @@ v1.1.8[unreleased]
 * On User#profile, test if cached value is instance of the profile class
 * Add public in CurrentUserSerializer
 * Remove User.PUT, use User.PATCH
+* Add CANT_REUSE_LAST_PASSWORDS setting

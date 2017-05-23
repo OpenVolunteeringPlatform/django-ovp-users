@@ -1,6 +1,7 @@
 import re
 
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.core import mail
 
 from rest_framework.reverse import reverse
@@ -9,6 +10,7 @@ from rest_framework.test import APIClient
 from ovp_users.tests.helpers import authenticate
 from ovp_users.tests.helpers import create_user
 from ovp_users.tests.helpers import create_token
+from ovp_users.models import PasswordRecoveryToken
 
 
 class RecoveryTokenViewSetTestCase(TestCase):
@@ -36,17 +38,17 @@ class RecoveryTokenViewSetTestCase(TestCase):
 class RecoverPasswordViewSetTestCase(TestCase):
   def test_can_recover_password(self):
     """Assert the user can recover his password with a valid token"""
-    # Request token
+    # request token
     user = create_user('test_can_recover@password.com')
 
-    mail.outbox = [] # Clear outbox
+    mail.outbox = [] # clear outbox
     response = create_token('test_can_recover@password.com')
 
-    # Get Token from mailbox
+    # get token from mailbox
     email_content = mail.outbox[0].alternatives[0][0]
     token = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', email_content).group(0)
 
-    # Recover Password
+    # recover password
     data = {
       'email': 'test_can_recover@password.com',
       'token': token,
@@ -126,3 +128,47 @@ class RecoverPasswordViewSetTestCase(TestCase):
     response = client.post(reverse('recover-password-list'), data, format="json")
     self.assertTrue(response.data['message'] == 'Invalid password.')
     self.assertTrue(response.status_code == 400)
+
+  def test_can_recover_to_same_or_old_password(self):
+    """ Assert that it's possible to recover to the same or old password """
+    response = create_user('test_can_recover_password@test.com', 'old_password')
+    client = APIClient()
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'new_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'new_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'old_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+  @override_settings(OVP_USERS={"CANT_REUSE_LAST_PASSWORDS": 2})
+  def test_cant_recover_to_same_or_old_password_if_in_settings(self):
+    """ Assert that it's not possible to recover to the same or old password if configured """
+    response = create_user('test_can_recover_password@test.com', 'old_password')
+    client = APIClient()
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'new_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'new_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 400)
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'old_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 400)
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'newest_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    create_token('test_can_recover_password@test.com')
+    response = client.post(reverse('recover-password-list'), {'new_password': 'old_password', 'token': PasswordRecoveryToken.objects.last().token}, format="json")
+    self.assertTrue(response.status_code == 200)
+

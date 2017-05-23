@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -13,6 +14,7 @@ class UserResourceViewSetTestCase(TestCase):
     """Assert that it's possible to create an user"""
     response = create_user()
     self.assertTrue(response.data['uuid'])
+    self.assertTrue("password" not in response.data)
 
   def test_cant_create_user_duplicated_email(self):
     """Assert that it's not possible to create an user with a repeated email"""
@@ -52,6 +54,7 @@ class UserResourceViewSetTestCase(TestCase):
     client.force_authenticate(user=u)
     response = client.patch(reverse('user-current-user'), data, format="json")
     self.assertTrue(response.status_code == 200)
+    self.assertTrue("password" not in response.data)
 
     response = authenticate('test_can_patch_password@test.com', data['password'])
     self.assertTrue(response.data['token'] != None)
@@ -117,3 +120,46 @@ class UserResourceViewSetTestCase(TestCase):
     client = APIClient()
     response = client.get(reverse('user-current-user'), {}, format="json")
     self.assertTrue(response.data['detail'] == 'Authentication credentials were not provided.')
+
+
+class UserPasswordHistoryTestCase(TestCase):
+  def test_can_update_to_same_or_old_password(self):
+    """ Assert that it's possible to update to the same or old password """
+    response = create_user('test_can_patch_password@test.com', 'old_password')
+    user = models.User.objects.get(uuid=response.data['uuid'])
+
+    client = APIClient()
+    client.force_authenticate(user=user)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'new_password', 'current_password': 'old_password'}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'new_password', 'current_password': 'new_password'}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'old_password', 'current_password': 'new_password'}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+  @override_settings(OVP_USERS={"CANT_REUSE_LAST_PASSWORDS": 2})
+  def test_cant_update_to_same_or_old_password_if_in_settings(self):
+    """ Assert that it's not possible to update to the same or old password if configured """
+    response = create_user('test_can_patch_password@test.com', 'old_password')
+    user = models.User.objects.get(uuid=response.data['uuid'])
+
+    client = APIClient()
+    client.force_authenticate(user=user)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'new_password', 'current_password': 'old_password'}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'new_password', 'current_password': 'new_password'}, format="json")
+    self.assertTrue(response.status_code == 400)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'old_password', 'current_password': 'new_password'}, format="json")
+    self.assertTrue(response.status_code == 400)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'newest_password', 'current_password': 'new_password'}, format="json")
+    self.assertTrue(response.status_code == 200)
+
+    response = client.patch(reverse('user-current-user'), {'password': 'old_password', 'current_password': 'newest_password'}, format="json")
+    self.assertTrue(response.status_code == 200)

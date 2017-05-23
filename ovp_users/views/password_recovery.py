@@ -92,6 +92,8 @@ class RecoverPasswordViewSet(viewsets.GenericViewSet):
     except ValidationError as e:
       return response.Response({'message': 'Invalid password.', 'errors': e}, status=status.HTTP_400_BAD_REQUEST)
 
+    serializers.RecoverPasswordSerializer(data=request.data, context=self.get_serializer_context()).is_valid(raise_exception=True)
+
     rt.used_date=timezone.now()
     rt.save()
 

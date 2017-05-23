@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from ovp_users.validators import PasswordReuseInRecovery
 
 class RecoveryTokenSerializer(serializers.Serializer):
   email = serializers.CharField(required=True)
@@ -7,9 +8,8 @@ class RecoveryTokenSerializer(serializers.Serializer):
     fields = ['email']
 
 class RecoverPasswordSerializer(serializers.Serializer):
-  email = serializers.CharField(required=True)
   token = serializers.CharField(required=True)
-  new_password = serializers.CharField(required=True)
+  new_password = serializers.CharField(required=True, validators=[PasswordReuseInRecovery()])
 
   class Meta:
-    fields = ['email', 'token', 'new_password']
+    fields = ['token', 'new_password']
