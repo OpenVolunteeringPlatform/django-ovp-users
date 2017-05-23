@@ -187,7 +187,7 @@ v1.1.7
 * Add gender to Profile
 * Optimize User.profile property to use cached profile object
 
-v1.1.8[unreleased]
+v1.1.8
 -----------
 * Add unspecified gender option
 * Stop requiring email on password recovery
@@ -195,3 +195,6 @@ v1.1.8[unreleased]
 * Add public in CurrentUserSerializer
 * Remove User.PUT, use User.PATCH
 * Add CANT_REUSE_LAST_PASSWORDS setting
+
+v1.1.9[unreleased]
+-----------
