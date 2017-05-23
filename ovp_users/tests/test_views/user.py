@@ -56,20 +56,6 @@ class UserResourceViewSetTestCase(TestCase):
     response = authenticate('test_can_patch_password@test.com', data['password'])
     self.assertTrue(response.data['token'] != None)
 
-  def test_can_put_password(self):
-    """Assert that it's possible to update user password"""
-    response = create_user('test_can_put_password@test.com', 'abcabcabc')
-    u = models.User.objects.get(uuid=response.data['uuid'])
-
-    data = {'name': 'abc', 'password': 'pwpw12341234', 'current_password': 'abcabcabc'}
-    client = APIClient()
-    client.force_authenticate(user=u)
-    response = client.put(reverse('user-current-user'), data, format="json")
-    self.assertTrue(response.status_code == 200)
-
-    response = authenticate('test_can_put_password@test.com', data['password'])
-    self.assertTrue(response.data['token'] != None)
-
   def test_cant_update_invalid_password(self):
     """Assert that it's impossible to update user password to a invalid password"""
     response = create_user('test_can_put_password@test.com', 'abcabcabc')
@@ -78,7 +64,7 @@ class UserResourceViewSetTestCase(TestCase):
     data = {'name': 'abc', 'password': 'abc', 'current_password': 'abcabcabc'}
     client = APIClient()
     client.force_authenticate(user=u)
-    response = client.put(reverse('user-current-user'), data, format="json")
+    response = client.patch(reverse('user-current-user'), data, format="json")
     self.assertTrue(response.status_code == 400)
     self.assertTrue(len(response.data['password']) > 0)
     self.assertTrue(isinstance(response.data['password'], list))

@@ -22,25 +22,18 @@ class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer = self.get_serializer(queryset, context=self.get_serializer_context())
     return response.Response(serializer.data)
 
-  def current_user_put(self, request, *args, **kwargs):
-    partial = kwargs.pop('partial', False)
+  def current_user_patch(self, request, *args, **kwargs):
     instance = self.get_object()
-    serializer = self.get_serializer(instance, data=request.data, partial=partial, context=self.get_serializer_context())
+    serializer = self.get_serializer(instance, data=request.data, partial=True, context=self.get_serializer_context())
     serializer.is_valid(raise_exception=True)
     serializer.save()
 
     return response.Response(serializer.data)
 
-  def current_user_patch(self, request, *args, **kwargs):
-    kwargs['partial'] = True
-    return self.current_user_put(request, *args, **kwargs)
-
-  @decorators.list_route(url_path="current-user", methods=['GET', 'PATCH', 'PUT'])
+  @decorators.list_route(url_path="current-user", methods=['GET', 'PATCH'])
   def current_user(self, request, *args, **kwargs):
     if request.method == 'GET':
       return self.current_user_get(request, *args, **kwargs)
-    if request.method == 'PUT':
-      return self.current_user_put(request, *args, **kwargs)
     if request.method == 'PATCH':
       return self.current_user_patch(request, *args, **kwargs)
 
