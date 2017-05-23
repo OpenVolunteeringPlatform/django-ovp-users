@@ -1,9 +1,13 @@
 from ovp_users import emails
 from ovp_users.models.profile import get_profile_model
+from ovp_users.models.password_history import PasswordHistory
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from django.db import models
 from django.utils import timezone
@@ -110,3 +114,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         return model.objects.get(user=self)
     except model.DoesNotExist:
       return None
+
+
+@receiver(post_save, sender=User)
+def update_history(sender, instance, raw=False, **kwargs):
+  if raw: # pragma: no cover
+    return
+
+  last_password = PasswordHistory.objects.filter(user=instance).last()
+
+  if not last_password or last_password.hashed_password != instance.password:
+    PasswordHistory(hashed_password=instance.password, user=instance).save()

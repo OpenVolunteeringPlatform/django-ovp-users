@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from ovp_users.models import User
+from ovp_users.models import PasswordHistory
 
 from shortuuid.main import encode as encode_uuid
 
@@ -47,3 +48,33 @@ class TestUserModel(TestCase):
     user = User.objects.create_user('user@email.com', 'validpassword')
     user.save()
     self.assertTrue(encode_uuid(user.uuid) == user.slug)
+
+class TestPasswordHistoryModel(TestCase):
+  def test_password_modifications_get_recorded(self):
+    """ Assert creating and updating password records password history """
+    self.assertTrue(PasswordHistory.objects.all().count() == 0)
+
+    user = User.objects.create_user('testuser@test.com', 'validpassword')
+    self.assertTrue(PasswordHistory.objects.all().count() == 1)
+
+    user.password = "newpassword"
+    user.save()
+    self.assertTrue(PasswordHistory.objects.all().count() == 2)
+
+    user.password = "anotherpassword"
+    user.save()
+    self.assertTrue(PasswordHistory.objects.all().count() == 3)
+
+    # Resaving should not create history
+    user.save()
+    self.assertTrue(PasswordHistory.objects.all().count() == 3)
+
+    # Saving without updating password also should not create history
+    User.objects.last().save()
+    self.assertTrue(PasswordHistory.objects.all().count() == 3)
+
+    # Updating to the same password generate history due to salting
+    user = User.objects.last()
+    user.password = "anotherpassword"
+    user.save()
+    self.assertTrue(PasswordHistory.objects.all().count() == 4)
