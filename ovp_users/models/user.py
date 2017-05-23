@@ -70,6 +70,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   class Meta:
     app_label = 'ovp_users'
+    verbose_name = _('user')
+    verbose_name_plural = _('users')
 
   def __init__(self, *args, **kwargs):
     super(User, self).__init__(*args, **kwargs)

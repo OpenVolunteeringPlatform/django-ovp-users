@@ -1,0 +1,95 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-23 18:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: django-ovp-users/ovp_users/models/password_recovery.py:9
+msgid "Token"
+msgstr "Token"
+
+#: django-ovp-users/ovp_users/models/password_recovery.py:10
+msgid "Created date"
+msgstr "Criado em"
+
+#: django-ovp-users/ovp_users/models/password_recovery.py:11
+msgid "Used date"
+msgstr "Consumido em"
+
+#: django-ovp-users/ovp_users/models/profile.py:14
+msgid "Full name"
+msgstr "Nome completo"
+
+#: django-ovp-users/ovp_users/models/profile.py:17
+msgid "About me"
+msgstr "Sobre mim"
+
+#: django-ovp-users/ovp_users/models/profile.py:18
+msgid "Gender"
+msgstr "Gênero"
+
+#: django-ovp-users/ovp_users/models/user.py:47
+msgid "Email"
+msgstr "E-mail"
+
+#: django-ovp-users/ovp_users/models/user.py:48
+msgid "Name"
+msgstr "Nome"
+
+#: django-ovp-users/ovp_users/models/user.py:49
+msgid "Slug"
+msgstr "Slug"
+
+#: django-ovp-users/ovp_users/models/user.py:50
+msgid "Phone"
+msgstr "Telefone"
+
+#: django-ovp-users/ovp_users/models/user.py:51
+msgid "avatar"
+msgstr "avatar"
+
+#: django-ovp-users/ovp_users/models/user.py:52
+msgid "Public"
+msgstr "Público"
+
+#: django-ovp-users/ovp_users/models/user.py:54
+msgid "Locale"
+msgstr "Idioma"
+
+#: django-ovp-users/ovp_users/models/user.py:56
+msgid "Staff"
+msgstr "Equipe"
+
+#: django-ovp-users/ovp_users/models/user.py:57
+msgid "Superuser"
+msgstr "super-usuário"
+
+#: django-ovp-users/ovp_users/models/user.py:58
+msgid "Active"
+msgstr "Ativo"
+
+#: django-ovp-users/ovp_users/models/user.py:59
+msgid "Email verified"
+msgstr "E-mail verificado"
+
+#: django-ovp-users/ovp_users/models/user.py:61
+msgid "Joined date"
+msgstr "Cadastrado em"
+
+#: django-ovp-users/ovp_users/models/user.py:62
+msgid "Modified date"
+msgstr "Alterado em"
