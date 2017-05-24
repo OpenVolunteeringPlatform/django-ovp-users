@@ -136,7 +136,7 @@ class LongUserPublicRetrieveSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['name', 'avatar', 'profile', 'slug', 'applies']
+    fields = ['name', 'avatar', 'profile', 'slug', 'applies', 'email']
 
 class UserProjectRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()
