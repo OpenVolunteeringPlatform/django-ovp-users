@@ -1,11 +1,13 @@
 from ovp_users import serializers
 from ovp_users import models
+from ovp_users import emails
 
 from rest_framework import decorators
 from rest_framework import mixins
 from rest_framework import response
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.decorators import detail_route
 
 import json
 
@@ -78,3 +80,20 @@ class PublicUserResourceViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewS
   serializer_class = serializers.LongUserPublicRetrieveSerializer
   lookup_field = 'slug'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
+  email = ''
+  locale = ''
+
+  def mailing(self, async_mail=None):
+    return emails.UserMail(self, async_mail)
+
+  @detail_route(methods=['post'], url_path='send-message')
+  def send_message(self, request, slug, pk=None):
+    self.email = self.queryset.get(slug=slug)
+    context = {
+                'message': request.data.get('message', None), 
+                'from_name': request.user.name, 
+                'from_email': request.user.email
+              }
+
+    self.mailing().sendMessageToAnotherVolunteer(context)
+    return response.Response(True)

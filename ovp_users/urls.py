@@ -7,7 +7,6 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserResourceViewSet, 'user')
 router.register(r'users/recovery-token', views.RecoveryTokenViewSet, 'recovery-token')
 router.register(r'users/recover-password', views.RecoverPasswordViewSet, 'recover-password')
-router.register(r'users/send-message', views.UserMessageViewSet, 'send-message')
 router.register(r'public-users', views.PublicUserResourceViewSet, 'public-users')
 
 urlpatterns = [
