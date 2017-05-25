@@ -107,7 +107,7 @@ class UserUpdateSerializer(UserCreateSerializer):
         profile = ProfileModel(user=instance)
         profile.save()
 
-      profile_sr = get_profile_serializers()[0](profile, data=profile_data)
+      profile_sr = get_profile_serializers()[0](profile, data=profile_data, partial=True)
       profile_sr.is_valid(raise_exception=True)
       profile = profile_sr.update(profile, profile_sr.validated_data)
 
