@@ -8,6 +8,7 @@ from ovp_users.models.profile import get_profile_model
 from ovp_users.serializers.profile import get_profile_serializers
 from ovp_users.serializers.profile import ProfileSearchSerializer
 from ovp_users.validators import PasswordReuse
+from ovp_users.decorators import expired_password
 from ovp_uploads.serializers import UploadedImageSerializer
 from ovp_projects.serializers.apply_user import ApplyUserRetrieveSerializer
 
@@ -121,6 +122,10 @@ class CurrentUserSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
     fields = ['uuid', 'name', 'phone', 'avatar', 'email', 'locale', 'profile', 'slug', 'public']
+
+  @expired_password
+  def to_representation(self, *args, **kwargs):
+    return super(CurrentUserSerializer, self).to_representation(*args, **kwargs)
 
 class ShortUserPublicRetrieveSerializer(serializers.ModelSerializer):
   avatar = UploadedImageSerializer()

@@ -201,3 +201,4 @@ v1.1.9[unreleased]
 * Add pt_BR translations
 * Fix for case insensitive user search
 * Add email on LongUserPublicRetrieveSerializer
+* Add EXPIRE_PASSWORD_IN setting

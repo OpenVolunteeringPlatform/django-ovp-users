@@ -1,3 +1,5 @@
+from dateutil.relativedelta import relativedelta
+
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -7,6 +9,7 @@ from rest_framework.test import APIClient
 from ovp_users import models
 from ovp_users.tests.helpers import authenticate
 from ovp_users.tests.helpers import create_user
+
 
 
 class UserResourceViewSetTestCase(TestCase):
@@ -81,6 +84,25 @@ class UserResourceViewSetTestCase(TestCase):
     response = client.get(reverse('user-current-user'), {}, format="json")
     self.assertTrue(response.data.get('email', None))
     self.assertTrue(response.data.get('name', None))
+    self.assertTrue("expired_password" not in response.data)
+
+  @override_settings(OVP_USERS={"EXPIRE_PASSWORD_IN": 60*60})
+  def test_expired_password_fields(self):
+    """Assert that password expired field works"""
+    user = create_user('test_can_get_current_user@test.com', 'validpassword')
+
+    client = APIClient()
+    client.login(username='test_can_get_current_user@test.com', password='validpassword')
+
+    response = client.get(reverse('user-current-user'), {}, format="json")
+    self.assertTrue(response.data['expired_password'] == False)
+
+    entry = models.PasswordHistory.objects.last()
+    entry.created_date = entry.created_date - relativedelta(hours=1)
+    entry.save()
+
+    response = client.get(reverse('user-current-user'), {}, format="json")
+    self.assertTrue(response.data['expired_password'] == True)
 
   def test_can_create_hidden_user(self):
     """Assert that it's possible to create a hidden user"""
