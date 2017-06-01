@@ -11,5 +11,5 @@ router.register(r'public-users', views.PublicUserResourceViewSet, 'public-users'
 
 urlpatterns = [
   url(r'^', include(router.urls)),
-  url(r'^api-token-auth/', obtain_jwt_token),
+  url(r'^api-token-auth/', views.UserAuthView.as_view()),
 ]

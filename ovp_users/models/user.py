@@ -54,6 +54,9 @@ class User(AbstractBaseUser, PermissionsMixin):
   phone = models.CharField(_('Phone'), max_length=30, null=True, blank=True)
   avatar = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name='avatar_user', verbose_name=_('avatar'))
   public = models.BooleanField(_('Public'), default=True)
+  login_attempts = models.IntegerField(default=0)
+  last_login_attempt = models.DateTimeField(auto_now=True, null=True, blank=True)
+  exceeded_login_attempts = models.BooleanField(default=False)
 
   locale = models.CharField(_('Locale'), max_length=8, null=False, blank=True, default='en')
 

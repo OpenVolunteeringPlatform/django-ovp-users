@@ -2,14 +2,24 @@ from ovp_users import serializers
 from ovp_users import models
 from ovp_users import emails
 
+from ovp_core.helpers import get_settings
+
 from rest_framework import decorators
 from rest_framework import mixins
 from rest_framework import response
 from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.decorators import detail_route
 
+from rest_framework.test import APIRequestFactory
+
+from rest_framework_jwt.views import obtain_jwt_token
+
 import json
+
+from django.utils import timezone
+from dateutil.relativedelta import relativedelta
 
 class UserResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
   """
@@ -97,3 +107,58 @@ class PublicUserResourceViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewS
 
     self.mailing().sendMessageToAnotherVolunteer(context)
     return response.Response(True)
+
+
+class UserAuthView(APIView):
+  """
+  UserAuthView resource endpoint
+  """
+  queryset = models.User.objects
+
+  def post(self, request, format=None):
+    s = get_settings('OVP_USERS')
+    login_attempts_value = s.get('LOGIN_ATTEMPTS', None)
+    data = request.data.copy()
+    request_factory = APIRequestFactory()
+
+    new_request = request_factory.post(request.path, data, format='json')
+    token = obtain_jwt_token(new_request)
+
+    if login_attempts_value is None:
+      return token
+
+    try:
+      user = self.queryset.get(email=request.data.get('email', None))
+    except:
+      return token
+
+    if token.status_code == 400:
+      check_date = (timezone.now() - relativedelta(hours=1)).replace(tzinfo=timezone.utc)
+      if user.exceeded_login_attempts:
+        return response.Response({'error': True, 'detail': 'exceeded_login_attempts', 'message': 'Exceeded limit login attempts'}, 400)
+
+      if user.last_login_attempt is None or check_date <= user.last_login_attempt:
+        user.login_attempts = user.login_attempts + 1
+      else:
+        user.login_attempts = 1
+
+      if user.login_attempts >= login_attempts_value:
+        user.exceeded_login_attempts = True         
+        user.last_login_attempt = timezone.now()
+        user.save()
+
+        token = models.PasswordRecoveryToken(user=user)
+        token.save()
+        return response.Response({'error': True, 'detail': 'exceeded_login_attempts', 'message': 'Exceeded limit login attempts'}, 400)
+
+      user.last_login_attempt = timezone.now()
+      user.save()
+      return token
+
+    if user.exceeded_login_attempts == 0:
+      user.last_login_attempt = timezone.now()
+      user.login_attempts = 0
+      user.save()
+      return token
+    else:
+      return response.Response({'error': True, 'detail': 'exceeded_login_attempts', 'message': 'Exceeded limit login attempts'}, 400)
