@@ -203,3 +203,4 @@ v1.1.9[unreleased]
 * Add email on LongUserPublicRetrieveSerializer
 * Add EXPIRE_PASSWORD_IN setting
 * Limit login attempts
+* Add public field in admin
