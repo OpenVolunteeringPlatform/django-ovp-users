@@ -9,3 +9,6 @@ MANIFEST
 coverage.xml
 *.egg
 *.egg-info
+
+django.po
+
