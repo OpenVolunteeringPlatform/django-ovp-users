@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-28 21:40+0000\n"
+"POT-Creation-Date: 2017-05-23 18:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,84 +20,76 @@ msgstr ""
 
 #: django-ovp-users/ovp_users/models/password_recovery.py:9
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: django-ovp-users/ovp_users/models/password_recovery.py:10
 msgid "Created date"
-msgstr ""
+msgstr "Criado em"
 
 #: django-ovp-users/ovp_users/models/password_recovery.py:11
 msgid "Used date"
-msgstr ""
+msgstr "Consumido em"
 
 #: django-ovp-users/ovp_users/models/profile.py:14
 msgid "Full name"
-msgstr ""
+msgstr "Nome completo"
 
 #: django-ovp-users/ovp_users/models/profile.py:17
 msgid "About me"
-msgstr ""
+msgstr "Sobre mim"
 
 #: django-ovp-users/ovp_users/models/profile.py:18
 msgid "Gender"
-msgstr ""
+msgstr "Gênero"
+
+#: django-ovp-users/ovp_users/models/user.py:47
+msgid "Email"
+msgstr "E-mail"
+
+#: django-ovp-users/ovp_users/models/user.py:48
+msgid "Name"
+msgstr "Nome"
+
+#: django-ovp-users/ovp_users/models/user.py:49
+msgid "Slug"
+msgstr "Slug"
+
+#: django-ovp-users/ovp_users/models/user.py:50
+msgid "Phone"
+msgstr "Telefone"
 
 #: django-ovp-users/ovp_users/models/user.py:51
-msgid "Email"
-msgstr ""
+msgid "avatar"
+msgstr "avatar"
 
 #: django-ovp-users/ovp_users/models/user.py:52
-msgid "Name"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:53
-msgid "Slug"
-msgstr ""
+msgid "Public"
+msgstr "Público"
 
 #: django-ovp-users/ovp_users/models/user.py:54
-msgid "Phone"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:55
-msgid "avatar"
-msgstr ""
+msgid "Locale"
+msgstr "Idioma"
 
 #: django-ovp-users/ovp_users/models/user.py:56
-msgid "Public"
-msgstr ""
+msgid "Staff"
+msgstr "Equipe"
+
+#: django-ovp-users/ovp_users/models/user.py:57
+msgid "Superuser"
+msgstr "super-usuário"
+
+#: django-ovp-users/ovp_users/models/user.py:58
+msgid "Active"
+msgstr "Ativo"
+
+#: django-ovp-users/ovp_users/models/user.py:59
+msgid "Email verified"
+msgstr "E-mail verificado"
 
 #: django-ovp-users/ovp_users/models/user.py:61
-msgid "Locale"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:63
-msgid "Staff"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:64
-msgid "Superuser"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:65
-msgid "Active"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:66
-msgid "Email verified"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:68
 msgid "Joined date"
-msgstr ""
+msgstr "Cadastrado em"
 
-#: django-ovp-users/ovp_users/models/user.py:69
+#: django-ovp-users/ovp_users/models/user.py:62
 msgid "Modified date"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:76
-msgid "user"
-msgstr ""
-
-#: django-ovp-users/ovp_users/models/user.py:77
-msgid "users"
-msgstr ""
+msgstr "Alterado em"
