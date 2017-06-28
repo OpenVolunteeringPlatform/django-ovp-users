@@ -10,5 +10,4 @@ coverage.xml
 *.egg
 *.egg-info
 
-django.po
-
+django.mo
