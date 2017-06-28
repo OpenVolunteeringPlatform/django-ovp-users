@@ -98,6 +98,7 @@ class RecoverPasswordViewSet(viewsets.GenericViewSet):
     rt.save()
 
     rt.user.password = new_password
+    rt.user.exceeded_login_attempts = False
     rt.user.save()
 
     return response.Response({'message': 'Password updated.'})
