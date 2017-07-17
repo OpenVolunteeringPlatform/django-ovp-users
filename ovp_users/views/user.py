@@ -93,19 +93,16 @@ class PublicUserResourceViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewS
   email = ''
   locale = ''
 
-  def mailing(self, async_mail=None):
-    return emails.UserMail(self, async_mail)
-
   @detail_route(methods=['post'], url_path='send-message')
   def send_message(self, request, slug, pk=None):
-    self.email = self.queryset.get(slug=slug)
+    mailing = emails.UserMail(self.queryset.get(slug=slug))
     context = {
                 'message': request.data.get('message', None), 
                 'from_name': request.user.name, 
                 'from_email': request.user.email
               }
 
-    self.mailing().sendMessageToAnotherVolunteer(context)
+    mailing.sendMessageToAnotherVolunteer(context)
     return response.Response(True)
 
 
