@@ -8,7 +8,8 @@ from ovp_users.models import User
 class UserAdmin(admin.ModelAdmin):
   fields = [
     ('id', 'name', 'email'), 'slug', 'phone',
-    ('is_staff','is_superuser','is_active','is_email_verified','public',)
+    ('is_staff','is_superuser','is_active','is_email_verified','public',),
+    ('password')
     ]
 
   list_display = [
