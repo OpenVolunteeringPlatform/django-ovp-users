@@ -21,6 +21,13 @@ class UserMail(BaseMail):
     return self.sendEmail('recoveryToken', 'Password recovery', context)
 
 
+  def sendManagerRecoveryToken(self, context):
+    """
+    Sent when volunteer requests recovery token
+    """
+    return self.sendEmail('managerRecoveryToken', 'Password recovery', context)
+
+
   def sendExceededLoginAttempts(self, context):
     """
     Sent when volunteer requests recovery token

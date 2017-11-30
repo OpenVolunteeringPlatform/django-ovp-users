@@ -16,6 +16,8 @@ class PasswordRecoveryToken(models.Model):
 
       if self.user.exceeded_login_attempts:
         self.user.mailing().sendExceededLoginAttempts({'token': self})
+      elif self.user.is_staff:
+        self.user.mailing().sendManagerRecoveryToken({'token': self})
       else:
         self.user.mailing().sendRecoveryToken({'token': self})
 
