@@ -25,7 +25,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.User
-    fields = ['uuid', 'name', 'email', 'password', 'phone', 'avatar', 'locale', 'profile', 'public', 'slug']
+    fields = ['uuid', 'name', 'email', 'password', 'phone', 'phone2', 'avatar', 'locale', 'profile', 'public', 'slug']
     extra_kwargs = {'password': {'write_only': True}}
 
   def validate(self, data):
@@ -64,7 +64,7 @@ class UserUpdateSerializer(UserCreateSerializer):
   class Meta:
     model = models.User
     permission_classes = (permissions.IsAuthenticated,)
-    fields = ['name', 'phone', 'password', 'avatar', 'current_password', 'locale', 'profile', 'public']
+    fields = ['name', 'phone', 'phone2', 'password', 'avatar', 'current_password', 'locale', 'profile', 'public']
     extra_kwargs = {'password': {'write_only': True}}
 
 
